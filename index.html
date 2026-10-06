@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도토리숲 - Jimjimmabi's Forest</title>
+    
+    <!-- Fonts to match Dotorisup -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ============================================
+           DOTORISUP DESIGN SYSTEM (FROM 2008.CSS)
+           ============================================ */
+        :root {
+            --bg: #F5F5F5;
+            --panel: #FFFFFF;
+            --border: #CCCCCC;
+            --border-dark: #999999;
+            --pink: #FF9EC4;
+            --pink-dark: #E87BA8;
+            --blue: #A8D8FF;
+            --blue-dark: #6FB8E8;
+            --text: #333333;
+            --text-light: #888888;
+            --link: #0066CC;
+            --acorn: #C68B4A;
+            --acorn-dark: #8B5E2E;
+            --cream: #FFF8F0;
+            --cream-dark: #F0E4D4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nanum Gothic', 'Dotum', sans-serif;
+            background: linear-gradient(to bottom, #EAF6FF 0%, #F5F5F5 200px);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 12px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* ============================================
+           HEADER / PROFILE CARD
+           ============================================ */
+        .profile-header {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative top stripe like CyWorld */
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: repeating-linear-gradient(135deg, var(--pink) 0 10px, var(--cream) 10px 20px, var(--blue) 20px 30px, var(--cream) 30px 40px);
+        }
+
+        .avatar-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(to bottom, #EAF6FF, #FFF8F0);
+            border: 2px solid var(--pink);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 44px;
+            margin: 0 auto 12px;
+            box-shadow: 0 2px 6px rgba(232, 123, 168, 0.2);
+        }
+
+        .profile-header h1 {
+            font-family: 'Gaegu', cursive;
+            font-size: 28px;
+            color: var(--acorn-dark);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .profile-header p {
+            font-size: 12px;
+            color: var(--text-light);
+            max-width: 500px;
+            margin: 0 auto 16px;
+            line-height: 1.7;
+        }
+
+        /* Social Buttons - 2008 Style */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: linear-gradient(to bottom, #FFFFFF, #F0F0F0);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.15s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .social-btn:hover {
+            background: linear-gradient(to bottom, #FFF8F0, #FFEEDD);
+            border-color: var(--pink);
+            color: var(--pink-dark);
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+
+        .social-btn i {
+            font-size: 14px;
+        }
+
+        /* ============================================
+           MAIN PANELS (CyWorld Card Style)
+           ============================================ */
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(to bottom, var(--cream), var(--cream-dark));
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--acorn-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-title i {
+            color: var(--pink-dark);
+        }
+
+        .panel-body {
+            padding: 16px;
+        }
+
+        /* ============================================
+           PROJECT CARDS (INSIDE PANEL)
+           ============================================ */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .project-card {
+            display: block;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.15s;
+        }
+
+        .project-card:hover {
+            border-color: var(--pink);
+            background: #FFF8F0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(232, 123, 168, 0.15);
+            text-decoration: none;
+        }
+
+        .project-card h3 {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--acorn-dark);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-card p {
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .project-card .cta {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--pink-dark);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .project-card .cta i {
+            font-size: 9px;
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover .cta i {
+            transform: translateX(3px);
+        }
+
+        /* ============================================
+           TIMELINE (DEVELOPMENT PATH)
+           ============================================ */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--cream-dark);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            background: var(--panel);
+            border: 2px solid var(--pink);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 0 3px var(--panel);
+        }
+
+        .timeline-item.completed::before {
+            background: var(--pink);
+            border-color: var(--pink-dark);
+        }
+
+        .timeline-date {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--pink-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item h3 {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--acorn-dark);
+            margin-bottom: 8px;
+            font-family: 'Gaegu', cursive;
+            font-size: 18px;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .timeline-item li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 4px;
+            font-size: 11px;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .timeline-item li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 1px;
+            font-size: 9px;
+            color: #4CAF50;
+        }
+
+        .timeline-item li.in-progress::before {
+            content: '\f110';
+            color: #FF9800;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 10px;
+            color: var(--text-light);
+            line-height: 1.8;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        .footer .dedication {
+            font-style: italic;
+            color: #AAAAAA;
+            margin-top: 8px;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            .profile-header h1 {
+                font-size: 22px;
+            }
+            .social-links {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- ============================================
+             HEADER / PROFILE CARD
+             ============================================ -->
+        <header class="profile-header">
+            <div class="avatar-box">🌰</div>
+            <h1>Jimjimmabi</h1>
+            <p>
+                안녕하세요! 저는 도토리숲을 만드는 개발자입니다.<br>
+                <span style="font-size: 10px; color: #AAAAAA;">Hello! I'm the developer behind Dotorisup.</span>
+            </p>
+            
+            <div class="social-links">
+                <a href="https://github.com/jimjimmabi" target="_blank" class="social-btn">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://www.tiktok.com/@jimjimmabi" target="_blank" class="social-btn">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+            </div>
+        </header>
+
+        <!-- ============================================
+             PROJECTS PANEL
+             ============================================ -->
+        <section class="panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-folder-open"></i>
+                    <span>My Projects</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="project-list">
+                    
+                    <!-- Dotorisup Project -->
+                    <a href="https://jimjimmabi.github.io/-/" class="project-card">
+                        <h3>
+                            <span>🌳</span> Dotorisup (도토리숲)
+                        </h3>
+                        <p>
+                            A revival of CyWorld (2008) rebuilt as a quiet, non-profit community. Features a mini-room, live chat, friend system, and a unique "Time Capsule" mode.
+                        </p>
+                        <span class="cta">
+                            Visit Live Site <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+
+                    <!-- GitHub Profile -->
+                    <a href="https://github.com/jimjimmabi" class="project-card">
+                        <h3>
+                            <span>💻</span> My GitHub
+                        </h3>
+                        <p>
+                            Check out my full GitHub profile for other repositories, including experimental tools, game prototypes, and web projects.
+                        </p>
+                        <span class="cta">
+                            View on GitHub <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             DOTORISUP DEVELOPMENT PATH
+             ============================================ -->
+        <section class="panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fas fa-seedling"></i>
+                    <span>Dotorisup Development Path</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="timeline">
+                    
+                    <!-- Weekend 1 -->
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekend 1</div>
+                        <h3>The Shell</h3>
+                        <ul>
+                            <li>Built the core HTML/CSS shell with a 5-tab layout</li>
+                            <li>Created the welcome screen with the project's dedication</li>
+                            <li>Established the DOTORI-ID creation system</li>
+                            <li>Set up anonymous Supabase authentication</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weekend 2-3 -->
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekends 2 & 3</div>
+                        <h3>The Room & Content</h3>
+                        <ul>
+                            <li>Developed the Mini-Room with a grid-based editor</li>
+                            <li>Added furniture, wallpaper, and floor customization</li>
+                            <li>Implemented the Guestbook with public and secret messages</li>
+                            <li>Created the Photo Album with upload and compression</li>
+                            <li>Integrated a fully functional BGM player</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weekend 4-6 -->
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekends 4-6</div>
+                        <h3>Community & Polish</h3>
+                        <ul>
+                            <li>Built the Acorn Square private group system</li>
+                            <li>Implemented the "Time Capsule" (2008 ↔ 2026 toggle)</li>
+                            <li>Added the quiet, atmospheric "Quiet Room" feature</li>
+                            <li>Polished the UI with custom themes and pixel mode</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weekend 7 -->
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekend 7</div>
+                        <h3>Going Online</h3>
+                        <ul>
+                            <li>Flipped the switch from localStorage to Supabase</li>
+                            <li>Deployed the first fully online version</li>
+                            <li>All user data now persists and syncs in real-time</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weekend 8 -->
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekend 8</div>
+                        <h3>Taste Finder & Friends</h3>
+                        <ul>
+                            <li>Developed the "Taste Finder" matching algorithm</li>
+                            <li>Built the real-time chat system (쪽지)</li>
+                            <li>Created the "Ilchon" mutual friend system</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weekend 9 -->
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekend 9</div>
+                        <h3>The Soul of the Forest</h3>
+                        <ul>
+                            <li>Integrated browser notifications and in-app toasts</li>
+                            <li>Added profile image uploads and a birthday system</li>
+                            <li>Polished UX with features like "Days Together"</li>
+                        </ul>
+                    </div>
+
+                    <!-- Current Work -->
+                    <div class="timeline-item in-progress">
+                        <div class="timeline-date">In Progress</div>
+                        <h3>Theme Customizer & Mood Diary</h3>
+                        <ul>
+                            <li class="in-progress">Building the page color palette customizer</li>
+                            <li class="in-progress">Adding custom background image support</li>
+                            <li class="in-progress">Creating the daily mood diary sidebar</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             FOOTER
+             ============================================ -->
+        <footer class="footer">
+            <p>© 2026 Jimjimmabi. Built with care.</p>
+            <p class="dedication">
+                도토리숲은 외로운 사람들이 서로를 찾는 작은 숲입니다.
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
