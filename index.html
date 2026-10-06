@@ -118,7 +118,8 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
             margin-top: 16px;
         }
 
@@ -126,11 +127,11 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 16px;
+            padding: 8px 14px;
             background: linear-gradient(to bottom, #FFFFFF, #F0F0F0);
             border: 1px solid var(--border);
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text);
             text-decoration: none;
             font-weight: bold;
@@ -147,7 +148,7 @@
         }
 
         .social-btn i {
-            font-size: 14px;
+            font-size: 13px;
         }
 
         /* ============================================
@@ -201,6 +202,7 @@
             display: block;
             background: var(--panel);
             border: 1px solid var(--border);
+            border-left: 4px solid var(--pink);
             border-radius: 6px;
             padding: 14px;
             text-decoration: none;
@@ -210,11 +212,18 @@
 
         .project-card:hover {
             border-color: var(--pink);
+            border-left-color: var(--pink-dark);
             background: #FFF8F0;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(232, 123, 168, 0.15);
             text-decoration: none;
         }
+
+        /* Vary the left border color per project for variety */
+        .project-card.p-blue { border-left-color: var(--blue-dark); }
+        .project-card.p-acorn { border-left-color: var(--acorn); }
+        .project-card.p-green { border-left-color: #7FB77E; }
+        .project-card.p-purple { border-left-color: #B4A0E5; }
 
         .project-card h3 {
             font-size: 14px;
@@ -297,6 +306,10 @@
             border-color: var(--pink-dark);
         }
 
+        .timeline-item.in-progress::before {
+            border-color: #FF9800;
+        }
+
         .timeline-date {
             font-size: 10px;
             font-weight: bold;
@@ -306,13 +319,16 @@
             margin-bottom: 4px;
         }
 
+        .timeline-item.in-progress .timeline-date {
+            color: #FF9800;
+        }
+
         .timeline-item h3 {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--acorn-dark);
             margin-bottom: 8px;
             font-family: 'Gaegu', cursive;
-            font-size: 18px;
         }
 
         .timeline-item ul {
@@ -371,9 +387,6 @@
             .profile-header h1 {
                 font-size: 22px;
             }
-            .social-links {
-                flex-wrap: wrap;
-            }
         }
     </style>
 </head>
@@ -392,20 +405,20 @@
                 <span style="font-size: 10px; color: #AAAAAA;">Hello! I'm the developer behind Dotorisup.</span>
             </p>
             
-        <div class="social-links">
-            <a href="https://github.com/jimjimmabi" target="_blank" class="social-btn">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="https://gitee.com/jimjimmabi/projects" target="_blank" class="social-btn">
-                <i class="fas fa-code-branch"></i> Gitee
-            </a>
-            <a href="https://www.youtube.com/@jimjimmabi" target="_blank" class="social-btn">
-                <i class="fab fa-youtube"></i> YouTube
-            </a>
-            <a href="https://www.tiktok.com/@jimjimmabi" target="_blank" class="social-btn">
-                <i class="fab fa-tiktok"></i> TikTok
-            </a>
-        </div>
+            <div class="social-links">
+                <a href="https://github.com/jimjimmabi" target="_blank" class="social-btn">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://gitee.com/jimjimmabi/projects" target="_blank" class="social-btn">
+                    <i class="fas fa-code-branch"></i> Gitee
+                </a>
+                <a href="https://www.youtube.com/@jimjimmabi" target="_blank" class="social-btn">
+                    <i class="fab fa-youtube"></i> YouTube
+                </a>
+                <a href="https://www.tiktok.com/@jimjimmabi" target="_blank" class="social-btn">
+                    <i class="fab fa-tiktok"></i> TikTok
+                </a>
+            </div>
         </header>
 
         <!-- ============================================
@@ -415,13 +428,13 @@
             <div class="panel-header">
                 <div class="panel-title">
                     <i class="fas fa-folder-open"></i>
-                    <span>My Projects</span>
+                    <span>My Websites</span>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="project-list">
                     
-                    <!-- Dotorisup Project -->
+                    <!-- Dotorisup -->
                     <a href="https://jimjimmabi.github.io/-/" class="project-card">
                         <h3>
                             <span>🌳</span> Dotorisup (도토리숲)
@@ -434,8 +447,21 @@
                         </span>
                     </a>
 
+                    <!-- MyDesk -->
+                    <a href="https://jimjimmabi.github.io/MyDesk/" class="project-card p-blue">
+                        <h3>
+                            <span>🖥️</span> MyDesk
+                        </h3>
+                        <p>
+                            A personal workspace with a Notion-style document editor, tasks, calendar, and more. Built with the same 2008 aesthetic as Dotorisup.
+                        </p>
+                        <span class="cta">
+                            Visit Live Site <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+
                     <!-- GitHub Profile -->
-                    <a href="https://github.com/jimjimmabi" class="project-card">
+                    <a href="https://github.com/jimjimmabi" class="project-card p-acorn">
                         <h3>
                             <span>💻</span> My GitHub
                         </h3>
