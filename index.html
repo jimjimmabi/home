@@ -261,8 +261,8 @@
         }
 
         /* ============================================
-           TIMELINE (DEVELOPMENT PATH)
-           ============================================ */
+            TIMELINE (DEVELOPMENT PATH)
+            ============================================ */
         .timeline {
             position: relative;
             padding-left: 30px;
@@ -306,9 +306,7 @@
             border-color: var(--pink-dark);
         }
 
-        .timeline-item.in-progress::before {
-            border-color: #FF9800;
-        }
+        /* Removed .in-progress dot styling since it's no longer used */
 
         .timeline-date {
             font-size: 10px;
@@ -319,9 +317,7 @@
             margin-bottom: 4px;
         }
 
-        .timeline-item.in-progress .timeline-date {
-            color: #FF9800;
-        }
+        /* Removed .in-progress date color override */
 
         .timeline-item h3 {
             font-size: 18px;
@@ -356,11 +352,7 @@
             color: #4CAF50;
         }
 
-        .timeline-item li.in-progress::before {
-            content: '\f110';
-            color: #FF9800;
-        }
-
+        /* Removed .in-progress li styling */
         /* ============================================
            FOOTER
            ============================================ */
