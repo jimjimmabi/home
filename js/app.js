@@ -3,7 +3,7 @@
 // ================================================================
 
 // ================================================================
-// UPDATES DATA (static for now, could be loaded from Supabase later)
+// STATIC DATA
 // ================================================================
 const UPDATES = [
   { text: 'MyDesk에 워드 스타일 툴바 추가됨', date: '10/07' },
@@ -19,12 +19,15 @@ const UPDATES = [
 const ALL_TOOLS = [
   { name: '도토리숲', desc: '커뮤니티', url: 'https://jimjimmabi.github.io/Dotorisuop/', icon: '🌳', live: true },
   { name: '마이데스크', desc: '작업실', url: 'https://jimjimmabi.github.io/MyDesk/', icon: '🖥️', live: true },
-  { name: 'GitHub', desc: '코드', url: 'https://github.com/jimjimmabi', icon: '💻', live: true },
-  { name: 'Gitee', desc: '코드', url: 'https://gitee.com/jimjimmabi/projects', icon: '📦', live: true },
-  { name: 'YouTube', desc: '영상', url: 'https://www.youtube.com/@jimjimmabi', icon: '📺', live: true },
-  { name: 'TikTok', desc: '숏폼', url: 'https://www.tiktok.com/@jimjimmabi', icon: '🎵', live: true },
   { name: '가계부', desc: '준비 중', url: '#', icon: '💰', live: false },
   { name: '지도', desc: '준비 중', url: '#', icon: '🗺️', live: false }
+];
+
+const ALL_SOCIALS = [
+  { name: 'GitHub', desc: '코드', url: 'https://github.com/jimjimmabi', icon: '💻' },
+  { name: 'Gitee', desc: '코드', url: 'https://gitee.com/jimjimmabi/projects', icon: '📦' },
+  { name: 'YouTube', desc: '영상', url: 'https://www.youtube.com/@jimjimmabi', icon: '📺' },
+  { name: 'TikTok', desc: '숏폼', url: 'https://www.tiktok.com/@jimjimmabi', icon: '🎵' }
 ];
 
 // ================================================================
@@ -114,7 +117,6 @@ async function renderAccount() {
       <a href="https://jimjimmabi.github.io/Dotorisuop/" class="login-btn" style="margin-left:4px;">
         <i class="fa-solid fa-user-plus"></i> 회원가입
       </a>
-      <a href="#" style="color:#666; font-size:10px; margin-left:4px;">고객센터</a>
     `;
   }
 }
@@ -138,6 +140,7 @@ async function renderInbox() {
 
   try {
     const { unread, latest } = await DotoriStorage.getInboxPreview();
+
     if (countEl) countEl.innerText = unread > 0 ? `${unread}개 안읽음` : '';
 
     if (!latest || latest.length === 0) {
@@ -147,7 +150,8 @@ async function renderInbox() {
 
     list.innerHTML = latest.map(n => `
       <li style="cursor:pointer;" onclick="window.location.href='https://jimjimmabi.github.io/Dotorisuop/'">
-        <strong>${escapeHtml(n.sender.nickname)}</strong>: ${escapeHtml((n.message || '').slice(0, 30))}${n.message && n.message.length > 30 ? '…' : ''}
+        <strong>${escapeHtml(n.sender.nickname)}</strong>:
+        ${escapeHtml((n.message || '').slice(0, 30))}${n.message && n.message.length > 30 ? '…' : ''}
         ${!n.is_read ? '<span style="color:#E87BA8;font-weight:bold;"> ●</span>' : ''}
       </li>
     `).join('');
@@ -182,8 +186,6 @@ function doSearch() {
 function renderUpdatesPreview() {
   const list = document.getElementById('updatesPreview');
   if (!list) return;
-
-  // Show first 4 in preview
   list.innerHTML = UPDATES.slice(0, 4).map(u => `
     <li>${escapeHtml(u.text)} <span class="date">${u.date}</span></li>
   `).join('');
@@ -209,21 +211,21 @@ window.openAllTools = function() {
       ${ALL_TOOLS.map(t => {
         if (t.live) {
           return `<a href="${t.url}" target="${t.url.startsWith('http') ? '_blank' : '_self'}"
-                    style="display:flex;align-items:center;gap:10px;padding:10px;background:#fff;border:1px solid #ddd;border-radius:4px;text-decoration:none;color:#333;">
-                    <span style="font-size:22px;">${t.icon}</span>
-                    <div>
-                      <div style="font-weight:bold;color:var(--acorn-dark);font-size:12px;">${t.name}</div>
-                      <div style="font-size:10px;color:#888;">${t.desc}</div>
-                    </div>
-                  </a>`;
+            style="display:flex;align-items:center;gap:10px;padding:10px;background:#fff;border:1px solid #ddd;border-radius:4px;text-decoration:none;color:#333;">
+            <span style="font-size:22px;">${t.icon}</span>
+            <div>
+              <div style="font-weight:bold;color:var(--acorn-dark);font-size:12px;">${t.name}</div>
+              <div style="font-size:10px;color:#888;">${t.desc}</div>
+            </div>
+          </a>`;
         }
         return `<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fafafa;border:1px solid #ddd;border-radius:4px;opacity:0.6;">
-                  <span style="font-size:22px;">${t.icon}</span>
-                  <div>
-                    <div style="font-weight:bold;color:#888;font-size:12px;">${t.name}</div>
-                    <div style="font-size:10px;color:#aaa;">${t.desc}</div>
-                  </div>
-                </div>`;
+          <span style="font-size:22px;">${t.icon}</span>
+          <div>
+            <div style="font-weight:bold;color:#888;font-size:12px;">${t.name}</div>
+            <div style="font-size:10px;color:#aaa;">${t.desc}</div>
+          </div>
+        </div>`;
       }).join('')}
     </div>
   `;
@@ -262,9 +264,9 @@ window.openLoginModal = function() {
         도토리숲에서 만든 도토리 ID를 입력해주세요.
       </p>
       <input type="text" id="loginDotoriId" placeholder="dotori-xxxx" maxlength="20"
-             autocomplete="off" style="width:100%;padding:9px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:13px;font-family:inherit;outline:none;margin-bottom:12px;"
-             onfocus="this.style.borderColor='#FF9EC4';this.style.background='#fff'"
-             onblur="this.style.borderColor='#ccc';this.style.background='#FFF8F0'">
+        autocomplete="off" style="width:100%;padding:9px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:13px;font-family:inherit;outline:none;margin-bottom:12px;"
+        onfocus="this.style.borderColor='#FF9EC4';this.style.background='#fff'"
+        onblur="this.style.borderColor='#ccc';this.style.background='#FFF8F0'">
       <button onclick="doLogin()" style="width:100%;padding:10px;background:linear-gradient(to bottom, #FFB8D4, #FF9EC4);border:1px solid #E87BA8;border-radius:4px;color:#fff;font-size:13px;font-weight:bold;cursor:pointer;font-family:inherit;">
         🌰 들어가기
       </button>
@@ -274,7 +276,6 @@ window.openLoginModal = function() {
       </p>
     </div>
   `);
-
   setTimeout(() => {
     const input = document.getElementById('loginDotoriId');
     if (input) {

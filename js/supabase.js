@@ -66,6 +66,7 @@ async function getInboxPreview() {
   const me = await getMyAcorn();
   if (!me) return { unread: 0, latest: [] };
 
+  // Fetch the latest 5 notes for this user
   const { data, error } = await sb
     .from('notes')
     .select('*')
@@ -75,14 +76,14 @@ async function getInboxPreview() {
 
   if (error) return { unread: 0, latest: [] };
 
-  // Count unread
+  // Count unread notes
   const { count } = await sb
     .from('notes')
     .select('*', { count: 'exact', head: true })
     .eq('recipient_id', me.id)
     .eq('is_read', false);
 
-  // Get senders
+  // Get sender profiles for the fetched notes
   const senderIds = [...new Set((data || []).map((n) => n.sender_id))];
   let senders = {};
   if (senderIds.length > 0) {
