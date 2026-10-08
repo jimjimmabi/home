@@ -304,7 +304,6 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   color: #fff;
 }
 
-/* Grid inside the panel — 1 column by default, 2 when space allows */
 #rssGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

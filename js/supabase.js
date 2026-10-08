@@ -126,6 +126,17 @@ async function deleteRssFeed(id) {
   return !error;
 }
 
+async function updateRssFeed(id, name, url, tags) {
+  const { data, error } = await sb
+    .from('rss_feeds')
+    .update({ name, url, tags: tags || [] })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
 // ---------- Expose ----------
 
 window.DotoriStorage = {
@@ -135,5 +146,6 @@ window.DotoriStorage = {
   getInboxPreview,
   getMyRssFeeds,
   addRssFeed,
+  updateRssFeed,
   deleteRssFeed
 };
