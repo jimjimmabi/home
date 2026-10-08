@@ -236,20 +236,24 @@ async function renderTasksPanel() {
 
     const listHtml = tasks.length === 0
       ? `<div style="padding:14px 10px;text-align:center;color:#CCC;font-size:10px;font-style:italic;">없음</div>`
-      : tasks.map(t => `
-        <div style="padding:6px 8px;border-bottom:1px dotted #EEEEEE;cursor:pointer;transition:background 0.15s;"
-             onmouseover="this.style.background='#FFF8F0'"
-             onmouseout="this.style.background=''"
-             onclick="window.open('https://jimjimmabi.github.io/MyDesk/', '_blank')">
+    : tasks.map(t => `
+    <div style="padding:6px 8px;border-bottom:1px dotted #EEEEEE;transition:background 0.15s;display:flex;gap:8px;align-items:flex-start;"
+           onmouseover="this.style.background='#FFF8F0'"
+           onmouseout="this.style.background=''">
+     <input type="checkbox"
+              onclick="toggleTaskFromHome('${t.id}', event)"
+              style="margin-top:2px;cursor:pointer;accent-color:#E87BA8;flex-shrink:0;width:14px;height:14px;">
+     <div style="flex:1;min-width:0;cursor:pointer;"
+           onclick="window.open('https://jimjimmabi.github.io/MyDesk/', '_blank')">
           <div style="font-size:11px;color:#333;line-height:1.4;word-break:break-word;">
-            ${escapeHtml(t.title || '(제목 없음)')}
-          </div>
-          <div style="font-size:9px;color:#999;margin-top:2px;">
-            ${t.category ? escapeHtml(t.category) : '일반'}${t.due ? ' · 📅 ' + escapeHtml(t.due) : ''}
-          </div>
+           ${escapeHtml(t.title || '(제목 없음)')}
+         </div>
+         <div style="font-size:9px;color:#999;margin-top:2px;">
+         ${t.category ? escapeHtml(t.category) : '일반'}${t.due ? ' · 📅 ' + escapeHtml(t.due) : ''}
         </div>
-      `).join('');
-
+     </div>
+     </div>
+    `).join('')
     return `
       <div class="rss-column" data-priority="${level}">
         <div class="rss-column-header">

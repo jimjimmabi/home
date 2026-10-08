@@ -110,8 +110,38 @@ async function getMyDeskTasks() {
   if (error || !data || !data.data) return [];
 
   const allTasks = data.data.tasks || [];
-  // Only incomplete tasks
   return allTasks.filter(t => !t.completed);
+}
+
+async function toggleMyDeskTask(taskId) {
+  const me = await getMyAcorn();
+  if (!me) throw new Error('로그인이 필요해요');
+
+  const { data, error } = await sb
+    .from('mydesk_backups')
+    .select('data')
+    .eq('user_id', me.id)
+    .single();
+
+  if (error || !data || !data.data) throw new Error('백업을 찾을 수 없어요');
+
+  const workspace = data.data;
+  const tasks = workspace.tasks || [];
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) throw new Error('할 일을 찾을 수 없어요');
+
+  task.completed = !task.completed;
+
+  const { error: saveError } = await sb
+    .from('mydesk_backups')
+    .upsert({
+      user_id: me.id,
+      data: workspace,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id' });
+
+  if (saveError) throw saveError;
+  return task;
 }
 
 // ---------- Expose ----------
@@ -121,5 +151,6 @@ window.DotoriStorage = {
   loginByDotoriId,
   logout,
   getInboxPreview,
-  getMyDeskTasks
+  getMyDeskTasks,
+  toggleMyDeskTask   // ← ADD THIS
 };

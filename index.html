@@ -64,6 +64,7 @@
     </div>
 
     <div class="main-grid">
+
       <!-- LEFT COLUMN -->
       <div class="col-left">
         <div class="mini-profile" id="miniProfile">
@@ -81,6 +82,7 @@
             </div>
           </div>
         </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-star"></i> 즐겨찾기</span>
@@ -92,6 +94,7 @@
             </ul>
           </div>
         </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-hourglass-half"></i> 준비 중</span>
@@ -100,6 +103,28 @@
             <ul class="link-list">
               <li><a href="#" onclick="openComingSoon('가계부');return false;" style="opacity:0.7;"><span class="l-icon">💰</span> 도토리 가계부</a></li>
               <li><a href="#" onclick="openComingSoon('지도');return false;" style="opacity:0.7;"><span class="l-icon">🗺️</span> 도토리 지도</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-pen"></i> 메모</span>
+          </div>
+          <div class="dp-body tight">
+            <textarea id="quickNote" placeholder="짧은 메모..."
+              style="width:100%;border:1px solid #E0E0E0;border-radius:3px;padding:6px 8px;font-size:11px;font-family:inherit;background:#FFF8F0;resize:vertical;min-height:60px;outline:none;"></textarea>
+          </div>
+        </div>
+
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-clock-rotate-left"></i> 최근 방문</span>
+          </div>
+          <div class="dp-body tight">
+            <ul class="link-list">
+              <li><a href="https://jimjimmabi.github.io/Dotorisuop/"><span class="l-icon">🌳</span> 도토리숲</a></li>
+              <li><a href="https://jimjimmabi.github.io/MyDesk/"><span class="l-icon">🖥️</span> 마이데스크</a></li>
             </ul>
           </div>
         </div>
@@ -137,6 +162,7 @@
             </div>
           </div>
         </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-tree"></i> 오늘의 숲</span>
@@ -146,6 +172,7 @@
             <ul class="dense-list" id="updatesPreview"></ul>
           </div>
         </div>
+
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
           <div class="dp">
             <div class="dp-header">
@@ -174,21 +201,22 @@
           </div>
         </div>
 
-<!-- MY TASKS — pulled from MyDesk -->
-<div class="dp task-panel">
-  <div class="dp-header">
-    <span><i class="fa-solid fa-list-check"></i> 내 할 일</span>
-    <div style="display:flex;gap:4px;align-items:center;">
-      <span class="rss-count" id="taskCount"></span>
-      <button class="rss-mini-btn" onclick="renderTasksPanel()" title="새로고침">
-        <i class="fa-solid fa-rotate"></i>
-      </button>
-    </div>
-  </div>
-  <div class="dp-body tight" id="taskGrid">
-    <p style="color:#999;padding:14px;text-align:center;font-size:11px;">로그인하면 할 일이 보여요</p>
-  </div>
-</div>
+        <!-- MY TASKS — pulled from MyDesk -->
+        <div class="dp task-panel">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-list-check"></i> 내 할 일</span>
+            <div style="display:flex;gap:4px;align-items:center;">
+              <span class="rss-count" id="taskCount"></span>
+              <button class="rss-mini-btn" onclick="renderTasksPanel()" title="새로고침">
+                <i class="fa-solid fa-rotate"></i>
+              </button>
+            </div>
+          </div>
+          <div class="dp-body tight" id="taskGrid">
+            <p style="color:#999;padding:14px;text-align:center;font-size:11px;">로그인하면 할 일이 보여요</p>
+          </div>
+        </div>
+      </div>
 
       <!-- RIGHT COLUMN -->
       <div class="col-right">
@@ -203,11 +231,13 @@
             </ul>
           </div>
         </div>
+
         <div class="note-box">
           <strong>📌 오늘의 한 마디</strong>
           도토리숲은 외로운 사람들이<br>
           서로를 찾는 작은 숲입니다.
         </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-user-group"></i> 소셜</span>
@@ -221,6 +251,7 @@
             </ul>
           </div>
         </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-bullhorn"></i> 공지</span>
@@ -233,6 +264,7 @@
             </ul>
           </div>
         </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-chart-simple"></i> 방문자</span>
@@ -254,6 +286,45 @@
             </div>
           </div>
         </div>
+
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-code-branch"></i> GitHub 활동</span>
+          </div>
+          <div class="dp-body tight">
+            <ul class="dense-list">
+              <li>홈페이지 리디자인 <span class="date">10/08</span></li>
+              <li>MyDesk 툴바 개선 <span class="date">10/07</span></li>
+              <li>RLS 정책 수정 <span class="date">10/07</span></li>
+              <li>동기화 안정화 <span class="date">10/06</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-cloud-sun"></i> 오늘 날씨</span>
+          </div>
+          <div class="dp-body tight">
+            <div style="text-align:center;padding:10px 0;">
+              <div style="font-size:32px;">🌤️</div>
+              <div style="font-size:16px;font-weight:bold;color:var(--acorn-dark);margin-top:4px;">18°</div>
+              <div style="font-size:9px;color:#999;">맑음 · 서울</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-heart"></i> 소개</span>
+          </div>
+          <div class="dp-body tight">
+            <div style="font-size:10px;color:#666;line-height:1.7;padding:4px 0;">
+              도토리숲은 광고도, 알고리즘도, 팔로워 수도 없습니다. 그냥, 외로운 사람들이 서로를 찾는 작은 숲입니다.
+            </div>
+          </div>
+        </div>
+
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-tags"></i> 태그</span>
@@ -269,6 +340,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="bottom-strip">
