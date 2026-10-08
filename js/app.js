@@ -398,9 +398,10 @@ async function fetchFeedItems(feed) {
 
   // Try multiple CORS proxies in order
   const proxies = [
-    `https://corsproxy.io/?url=${encodeURIComponent(feed.url)}`,
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}`,
-    `https://thingproxy.freeboard.io/fetch/${feed.url}`
+  `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}`,
+  `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(feed.url)}`,
+  `https://cors.eu.org/${feed.url}`,
+  `https://corsproxy.io/?url=${encodeURIComponent(feed.url)}`
   ];
 
   let xml = null;
