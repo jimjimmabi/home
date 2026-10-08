@@ -268,89 +268,49 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 .tool-bar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); }
 
 /* ============================================
-   RSS FEED SECTION
+   RSS FEED (inside middle column)
    ============================================ */
-.rss-section {
-  padding: 8px;
-}
-
-.rss-header {
-  background: linear-gradient(to bottom, var(--cream), var(--cream-dark));
-  border: 1px solid var(--cream-dark);
-  border-radius: 3px 3px 0 0;
-  padding: 8px 12px;
+.rss-panel {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
 }
 
-.rss-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--acorn-dark);
-}
-
-.rss-title i { color: #FF6600; }
-
-.rss-count {
-  background: var(--pink);
-  color: #fff;
-  font-size: 9px;
-  padding: 1px 7px;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.rss-actions { display: flex; gap: 6px; }
-
-.rss-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 12px;
-  background: linear-gradient(to bottom, #FFFFFF, #F0F0F0);
+.rss-mini-btn {
+  background: none;
   border: 1px solid var(--border);
   border-radius: 3px;
-  font-size: 11px;
-  font-weight: bold;
+  padding: 2px 8px;
+  font-size: 10px;
   color: var(--text);
   cursor: pointer;
   font-family: inherit;
   transition: all 0.15s;
 }
 
-.rss-btn:hover {
-  background: linear-gradient(to bottom, #FFF8F0, #FFEEDD);
+.rss-mini-btn:hover {
+  background: var(--cream);
   border-color: var(--pink);
   color: var(--pink-dark);
 }
 
-.rss-btn.primary {
+.rss-mini-btn.primary {
   background: linear-gradient(to bottom, #FFB8D4, var(--pink));
   border-color: var(--pink-dark);
   color: #fff;
 }
 
-.rss-btn.primary:hover {
+.rss-mini-btn.primary:hover {
   background: linear-gradient(to bottom, var(--pink), var(--pink-dark));
+  color: #fff;
 }
 
-/* Dynamic grid — as many columns as fit, min 240px each */
-.rss-grid {
+/* Grid inside the panel — 1 column by default, 2 when space allows */
+#rssGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 8px;
-  padding: 8px;
-  background: #F5F5F5;
-  border: 1px solid #E0E0E0;
-  border-top: none;
-  border-radius: 0 0 3px 3px;
-  min-height: 200px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 6px;
+  padding: 6px;
+  min-height: 120px;
 }
 
 .rss-column {
@@ -359,15 +319,15 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  max-height: 340px;
+  max-height: 320px;
   overflow: hidden;
 }
 
 .rss-column-header {
   background: linear-gradient(to bottom, #FFF8F0, #F0E4D4);
   border-bottom: 1px solid #E0D0C0;
-  padding: 6px 10px;
-  font-size: 11px;
+  padding: 5px 8px;
+  font-size: 10px;
   font-weight: bold;
   color: var(--acorn-dark);
   display: flex;
@@ -392,7 +352,7 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 
 .rss-feed-group {
   border-bottom: 1px dotted #EEEEEE;
-  padding: 6px 10px;
+  padding: 5px 8px;
 }
 
 .rss-feed-group:last-child { border-bottom: none; }
@@ -401,7 +361,7 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   font-size: 10px;
   font-weight: bold;
   color: var(--pink-dark);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -422,7 +382,7 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   display: block;
   font-size: 10px;
   color: #555;
-  padding: 3px 0 3px 8px;
+  padding: 2px 0 2px 6px;
   border-bottom: 1px dotted #F0F0F0;
   line-height: 1.4;
   text-decoration: none;
@@ -434,7 +394,7 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 .rss-item:hover {
   background: var(--cream);
   color: var(--pink-dark);
-  padding-left: 10px;
+  padding-left: 8px;
   text-decoration: none;
 }
 
@@ -442,23 +402,18 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   font-size: 8px;
   color: #BBB;
   display: block;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .rss-loading {
   color: #BBB;
   font-size: 10px;
   font-style: italic;
-  padding: 6px 10px;
+  padding: 5px 8px;
 }
 
 .rss-error {
   color: #C04040;
   font-size: 10px;
-  padding: 6px 10px;
-}
-
-@media (max-width: 640px) {
-  .rss-grid { grid-template-columns: 1fr; }
-  .rss-header { flex-direction: column; align-items: flex-start; }
+  padding: 5px 8px;
 }

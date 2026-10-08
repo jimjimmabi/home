@@ -64,6 +64,7 @@
     </div>
 
     <div class="main-grid">
+      <!-- LEFT COLUMN -->
       <div class="col-left">
         <div class="mini-profile" id="miniProfile">
           <div class="mini-avatar" id="miniAvatar">👩‍💻</div>
@@ -104,30 +105,7 @@
         </div>
       </div>
 
-      <!-- RSS FEED SECTION -->
-    <div class="rss-section">
-      <div class="rss-header">
-        <div class="rss-title">
-          <i class="fa-solid fa-rss"></i>
-          <span>RSS 피드</span>
-          <span class="rss-count" id="rssCount"></span>
-        </div>
-        <div class="rss-actions">
-          <button class="rss-btn" onclick="refreshAllFeeds()" title="모두 새로고침">
-            <i class="fa-solid fa-rotate"></i> 새로고침
-          </button>
-          <button class="rss-btn primary" onclick="openAddFeedModal()" title="피드 추가">
-            <i class="fa-solid fa-plus"></i> 피드 추가
-          </button>
-        </div>
-      </div>
-      <div class="rss-grid" id="rssGrid">
-        <p style="color:#999;padding:20px;text-align:center;grid-column:1/-1;">로그인하면 RSS 피드를 추가할 수 있어요</p>
-      </div>
-    </div>
-
-    <div class="bottom-strip">
-
+      <!-- CENTER COLUMN -->
       <div class="col-center">
         <div class="dp">
           <div class="dp-header">
@@ -195,8 +173,27 @@
             </div>
           </div>
         </div>
+
+        <!-- RSS FEED — INSIDE the center column -->
+        <div class="dp rss-panel">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-rss" style="color:#FF6600;"></i> RSS 피드</span>
+            <div style="display:flex;gap:4px;">
+              <button class="rss-mini-btn" onclick="refreshAllFeeds()" title="새로고침">
+                <i class="fa-solid fa-rotate"></i>
+              </button>
+              <button class="rss-mini-btn primary" onclick="openAddFeedModal()" title="피드 추가">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="dp-body tight" id="rssGrid">
+            <p style="color:#999;padding:14px;text-align:center;font-size:11px;">로그인하면 RSS 피드를 추가할 수 있어요</p>
+          </div>
+        </div>
       </div>
 
+      <!-- RIGHT COLUMN -->
       <div class="col-right">
         <div class="dp">
           <div class="dp-header">
@@ -240,7 +237,6 @@
           </div>
         </div>
 
-        <!-- NEW: Visitor stats panel -->
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-chart-simple"></i> 방문자</span>
@@ -263,7 +259,6 @@
           </div>
         </div>
 
-        <!-- NEW: Tags panel -->
         <div class="dp">
           <div class="dp-header">
             <span><i class="fa-solid fa-tags"></i> 태그</span>
