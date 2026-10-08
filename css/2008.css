@@ -42,6 +42,14 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 4px;
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 0;
+  }
 }
 
 /* Micro top strip */
@@ -143,13 +151,43 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 }
 .hero-search button:hover { background: linear-gradient(to bottom, var(--pink), var(--pink-dark)); }
 
-/* Main grid */
+/* Main grid — fluid universal layout */
 .main-grid {
-  display: grid; grid-template-columns: 200px 1fr 200px; gap: 8px; padding: 8px; align-items: start;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 200px;
+  gap: 8px;
+  padding: 8px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
-@media (max-width: 900px) { .main-grid { grid-template-columns: 200px 1fr; } .col-right { display: none; } }
-@media (max-width: 640px) { .main-grid { grid-template-columns: 1fr; } .col-left { display: none; } }
-.col-left, .col-center, .col-right { display: flex; flex-direction: column; gap: 8px; }
+
+.col-left, .col-center, .col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Tablet: right column hidden */
+@media (max-width: 950px) {
+  .main-grid {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+  .col-right {
+    display: none;
+  }
+}
+
+/* Small tablet / large phone: left column hidden too */
+@media (max-width: 700px) {
+  .main-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .col-left {
+    display: none;
+  }
+}
 
 /* Panels */
 .dp { background: #FFFFFF; border: 1px solid #E0E0E0; border-radius: 3px; overflow: hidden; }
@@ -309,29 +347,49 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   color: #fff;
 }
 
-#rssGrid,
+/* Task panel — universal 3-column layout that collapses gracefully */
 #taskGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+  min-height: 60px;
+  align-content: start;
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 950px) {
+  #taskGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phone: 1 column */
+@media (max-width: 700px) {
+  #taskGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Legacy RSS grid — kept in case you re-add it */
+#rssGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
   padding: 6px;
   min-height: 120px;
   align-content: start;
 }
 
-/* Mobile: 2 columns */
-@media (max-width: 900px) {
-  #rssGrid,
-  #taskGrid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 950px) {
+  #rssGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Small mobile: 1 column */
-@media (max-width: 560px) {
-  #rssGrid,
-  #taskGrid {
-    grid-template-columns: 1fr;
+@media (max-width: 700px) {
+  #rssGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -343,6 +401,13 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   flex-direction: column;
   max-height: 320px;
   overflow: hidden;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .rss-column {
+    max-height: none;
+  }
 }
 
 .rss-column-header {
