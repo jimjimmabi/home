@@ -181,7 +181,7 @@
           </div>
           <div class="dp-body tight">
             <ul class="dense-list" id="inboxList">
-              <li style="color:#999;">로그인하면 쪽지가 보여요</li>
+              <li style="color:#999;padding:6px;">로그인하면 쪽지가 보여요</li>
             </ul>
           </div>
         </div>
@@ -215,6 +215,45 @@
             </ul>
           </div>
         </div>
+
+        <!-- NEW: Visitor stats panel -->
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-chart-simple"></i> 방문자</span>
+          </div>
+          <div class="dp-body tight">
+            <div style="display:flex;justify-content:space-around;padding:8px 0;text-align:center;">
+              <div>
+                <div style="font-size:18px;font-weight:bold;color:var(--pink-dark);font-family:'Nanum Gothic',sans-serif;" id="statToday">0</div>
+                <div style="font-size:9px;color:#888;">오늘</div>
+              </div>
+              <div>
+                <div style="font-size:18px;font-weight:bold;color:var(--acorn-dark);font-family:'Nanum Gothic',sans-serif;" id="statTotal">0</div>
+                <div style="font-size:9px;color:#888;">전체</div>
+              </div>
+              <div>
+                <div style="font-size:18px;font-weight:bold;color:var(--pink-dark);font-family:'Nanum Gothic',sans-serif;">3</div>
+                <div style="font-size:9px;color:#888;">도구</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NEW: Tags panel -->
+        <div class="dp">
+          <div class="dp-header">
+            <span><i class="fa-solid fa-tags"></i> 태그</span>
+          </div>
+          <div class="dp-body tight">
+            <div style="display:flex;flex-wrap:wrap;gap:4px;padding:4px 0;">
+              <a href="https://jimjimmabi.github.io/Dotorisuop/" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--acorn-dark);">#도토리숲</a>
+              <a href="https://jimjimmabi.github.io/MyDesk/" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--acorn-dark);">#마이데스크</a>
+              <a href="#" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--acorn-dark);">#2008</a>
+              <a href="#" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--acorn-dark);">#싸이월드</a>
+              <a href="#" style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--acorn-dark);">#감성</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -223,19 +262,27 @@
       <a href="https://jimjimmabi.github.io/Dotorisuop/">도토리숲</a><span class="sep">|</span>
       <a href="https://jimjimmabi.github.io/MyDesk/">마이데스크</a><span class="sep">|</span>
       <a href="#" onclick="openComingSoon('가계부');return false;">가계부</a><span class="sep">|</span>
-      <a href="#" onclick="openComingSoon('사진첩');return false;">사진첩</a>
+      <a href="#" onclick="openComingSoon('사진첩');return false;">사진첩</a><span class="sep">|</span>
+      <a href="#" onclick="openComingSoon('음악');return false;">음악</a><span class="sep">|</span>
+      <a href="#" onclick="openComingSoon('지도');return false;">지도</a>
       <br>
       <span class="cat">소셜:</span>
       <a href="https://github.com/jimjimmabi" target="_blank">GitHub</a><span class="sep">|</span>
       <a href="https://gitee.com/jimjimmabi/projects" target="_blank">Gitee</a><span class="sep">|</span>
       <a href="https://www.youtube.com/@jimjimmabi" target="_blank">YouTube</a><span class="sep">|</span>
-      <a href="https://www.tiktok.com/@jimjimmabi" target="_blank">TikTok</a>
+      <a href="https://www.tiktok.com/@jimjimmabi" target="_blank">TikTok</a><span class="sep">|</span>
+      <a href="https://jimjimmabi.github.io/home/" target="_blank">홈</a>
       <br>
       <span class="cat">정보:</span>
       <a href="#">소개</a><span class="sep">|</span>
       <a href="#">개발일지</a><span class="sep">|</span>
       <a href="#">문의</a><span class="sep">|</span>
-      <a href="#">업데이트</a>
+      <a href="#">업데이트</a><span class="sep">|</span>
+      <a href="#">개인정보처리방침</a><span class="sep">|</span>
+      <a href="#">이용약관</a>
+      <br>
+      <span class="cat">업데이트:</span>
+      <span style="color:#888;">v1.0 · 2026.10.08</span>
     </div>
 
     <div class="footer">

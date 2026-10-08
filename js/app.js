@@ -133,7 +133,7 @@ async function renderInbox() {
   try { profile = await DotoriStorage.getMyAcorn(); } catch (e) {}
 
   if (!profile) {
-    list.innerHTML = '<li style="color:#999;">로그인하면 쪽지가 보여요</li>';
+    list.innerHTML = '<li style="color:#999;padding:6px;">로그인하면 쪽지가 보여요</li>';
     if (countEl) countEl.innerText = '';
     return;
   }
@@ -141,22 +141,45 @@ async function renderInbox() {
   try {
     const { unread, latest } = await DotoriStorage.getInboxPreview();
 
-    if (countEl) countEl.innerText = unread > 0 ? `${unread}개 안읽음` : '';
+    if (countEl) {
+      countEl.innerHTML = unread > 0
+        ? `<span style="background:#FF9EC4;color:#fff;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:bold;">${unread}</span>`
+        : '';
+    }
 
     if (!latest || latest.length === 0) {
-      list.innerHTML = '<li style="color:#999;">아직 쪽지가 없어요</li>';
+      list.innerHTML = '<li style="color:#999;padding:6px;">아직 쪽지가 없어요</li>';
       return;
     }
 
-    list.innerHTML = latest.map(n => `
-      <li style="cursor:pointer;" onclick="window.location.href='https://jimjimmabi.github.io/Dotorisuop/'">
-        <strong>${escapeHtml(n.sender.nickname)}</strong>:
-        ${escapeHtml((n.message || '').slice(0, 30))}${n.message && n.message.length > 30 ? '…' : ''}
-        ${!n.is_read ? '<span style="color:#E87BA8;font-weight:bold;"> ●</span>' : ''}
-      </li>
-    `).join('');
+    list.innerHTML = latest.map(n => {
+      const senderName = n.sender?.nickname || '알 수 없음';
+      const preview = (n.message || '').slice(0, 22);
+      const isUnread = !n.is_read;
+      const dotoriLink = `https://jimjimmabi.github.io/Dotorisuop/`;
+
+      return `
+        <li style="cursor:pointer;padding:6px 4px;border-bottom:1px dotted #EEEEEE;transition:background 0.15s;"
+            onmouseover="this.style.background='#FFF8F0'"
+            onmouseout="this.style.background=''"
+            onclick="window.open('${dotoriLink}', '_blank')">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="font-size:14px;">${n.sender?.mini_me || '🌰'}</span>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <strong style="color:var(--acorn-dark);font-size:11px;">${escapeHtml(senderName)}</strong>
+                ${isUnread ? '<span style="color:#E87BA8;font-size:14px;line-height:1;">●</span>' : ''}
+              </div>
+              <div style="font-size:10px;color:#777;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;">
+                ${escapeHtml(preview)}${n.message && n.message.length > 22 ? '…' : ''}
+              </div>
+            </div>
+          </div>
+        </li>
+      `;
+    }).join('');
   } catch (e) {
-    list.innerHTML = '<li style="color:#999;">쪽지를 불러올 수 없어요</li>';
+    list.innerHTML = '<li style="color:#999;padding:6px;">쪽지를 불러올 수 없어요</li>';
   }
 }
 
