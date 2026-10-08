@@ -174,24 +174,21 @@
           </div>
         </div>
 
-        <!-- RSS FEED — INSIDE the center column -->
-        <div class="dp rss-panel">
-          <div class="dp-header">
-            <span><i class="fa-solid fa-rss" style="color:#FF6600;"></i> RSS 피드</span>
-            <div style="display:flex;gap:4px;">
-              <button class="rss-mini-btn" onclick="refreshAllFeeds()" title="새로고침">
-                <i class="fa-solid fa-rotate"></i>
-              </button>
-              <button class="rss-mini-btn" onclick="openFeedManager()" title="피드 관리">
-                <i class="fa-solid fa-gear"></i> 관리
-              </button>
-            </div>
-          </div>
-          <div class="dp-body tight" id="rssGrid">
-            <p style="color:#999;padding:14px;text-align:center;font-size:11px;">로그인하면 RSS 피드를 추가할 수 있어요</p>
-          </div>
-        </div>
-      </div>
+<!-- MY TASKS — pulled from MyDesk -->
+<div class="dp task-panel">
+  <div class="dp-header">
+    <span><i class="fa-solid fa-list-check"></i> 내 할 일</span>
+    <div style="display:flex;gap:4px;align-items:center;">
+      <span class="rss-count" id="taskCount"></span>
+      <button class="rss-mini-btn" onclick="renderTasksPanel()" title="새로고침">
+        <i class="fa-solid fa-rotate"></i>
+      </button>
+    </div>
+  </div>
+  <div class="dp-body tight" id="taskGrid">
+    <p style="color:#999;padding:14px;text-align:center;font-size:11px;">로그인하면 할 일이 보여요</p>
+  </div>
+</div>
 
       <!-- RIGHT COLUMN -->
       <div class="col-right">

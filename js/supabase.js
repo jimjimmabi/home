@@ -95,46 +95,23 @@ async function getInboxPreview() {
   };
 }
 
-// ---------- RSS Feeds ----------
+// ---------- MyDesk Tasks ----------
 
-async function getMyRssFeeds() {
+async function getMyDeskTasks() {
   const me = await getMyAcorn();
   if (!me) return [];
-  const { data, error } = await sb
-    .from('rss_feeds')
-    .select('*')
-    .eq('owner_id', me.id)
-    .order('created_at', { ascending: false });
-  if (error) return [];
-  return data;
-}
 
-async function addRssFeed(name, url, tags) {
-  const me = await getMyAcorn();
-  if (!me) throw new Error('로그인이 필요해요');
   const { data, error } = await sb
-    .from('rss_feeds')
-    .insert([{ owner_id: me.id, name, url, tags: tags || [] }])
-    .select()
+    .from('mydesk_backups')
+    .select('data')
+    .eq('user_id', me.id)
     .single();
-  if (error) throw error;
-  return data;
-}
 
-async function deleteRssFeed(id) {
-  const { error } = await sb.from('rss_feeds').delete().eq('id', id);
-  return !error;
-}
+  if (error || !data || !data.data) return [];
 
-async function updateRssFeed(id, name, url, tags) {
-  const { data, error } = await sb
-    .from('rss_feeds')
-    .update({ name, url, tags: tags || [] })
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
+  const allTasks = data.data.tasks || [];
+  // Only incomplete tasks
+  return allTasks.filter(t => !t.completed);
 }
 
 // ---------- Expose ----------
@@ -144,8 +121,5 @@ window.DotoriStorage = {
   loginByDotoriId,
   logout,
   getInboxPreview,
-  getMyRssFeeds,
-  addRssFeed,
-  updateRssFeed,
-  deleteRssFeed
+  getMyDeskTasks
 };

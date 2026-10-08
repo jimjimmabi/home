@@ -20,7 +20,7 @@ const ALL_TOOLS = [
   { name: '지도', desc: '준비 중', url: '#', icon: '🗺️', live: false }
 ];
 
-let rssFeeds = [];
+let myTasks = [];
 
 // ================================================================
 // INIT
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderUpdatesPreview();
   await renderAccount();
   await renderInbox();
-  await initRss();
+  await renderTasksPanel();
 
   document.getElementById('searchInput').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') doSearch();
@@ -179,6 +179,95 @@ async function renderInbox() {
 }
 
 // ================================================================
+// TASKS PANEL (from MyDesk)
+// ================================================================
+async function renderTasksPanel() {
+  const grid = document.getElementById('taskGrid');
+  const countEl = document.getElementById('taskCount');
+  if (!grid) return;
+
+  let profile = null;
+  try { profile = await DotoriStorage.getMyAcorn(); } catch (e) {}
+
+  if (!profile) {
+    grid.innerHTML = '<p style="color:#999;padding:14px;text-align:center;font-size:11px;grid-column:1/-1;">로그인하면 할 일이 보여요</p>';
+    if (countEl) countEl.innerText = '';
+    return;
+  }
+
+  grid.innerHTML = '<p style="color:#BBB;padding:14px;text-align:center;font-size:11px;grid-column:1/-1;font-style:italic;">불러오는 중...</p>';
+
+  try {
+    myTasks = await DotoriStorage.getMyDeskTasks();
+  } catch (e) {
+    console.error('Tasks load failed:', e);
+    myTasks = [];
+  }
+
+  if (countEl) {
+    countEl.innerText = myTasks.length > 0 ? `${myTasks.length}개` : '';
+  }
+
+  if (myTasks.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;padding:24px;text-align:center;color:#999;font-size:11px;">
+        할 일이 없어요 🎉<br>
+        <span style="font-size:10px;color:#BBB;">MyDesk에서 새 할 일을 추가해보세요.</span>
+      </div>
+    `;
+    return;
+  }
+
+  const groups = {
+    High: myTasks.filter(t => t.priority === 'High'),
+    Medium: myTasks.filter(t => t.priority === 'Medium'),
+    Low: myTasks.filter(t => t.priority === 'Low')
+  };
+
+  const meta = {
+    High:   { emoji: '🔴', label: '높음', color: '#C04040' },
+    Medium: { emoji: '🟡', label: '보통', color: '#B8860B' },
+    Low:    { emoji: '🟢', label: '낮음', color: '#4A8A4A' }
+  };
+
+  grid.innerHTML = Object.keys(groups).map(level => {
+    const tasks = groups[level];
+    const m = meta[level];
+
+    const listHtml = tasks.length === 0
+      ? `<div style="padding:14px 10px;text-align:center;color:#CCC;font-size:10px;font-style:italic;">없음</div>`
+      : tasks.map(t => `
+        <div style="padding:6px 8px;border-bottom:1px dotted #EEEEEE;cursor:pointer;transition:background 0.15s;"
+             onmouseover="this.style.background='#FFF8F0'"
+             onmouseout="this.style.background=''"
+             onclick="window.open('https://jimjimmabi.github.io/MyDesk/', '_blank')">
+          <div style="font-size:11px;color:#333;line-height:1.4;word-break:break-word;">
+            ${escapeHtml(t.title || '(제목 없음)')}
+          </div>
+          <div style="font-size:9px;color:#999;margin-top:2px;">
+            ${t.category ? escapeHtml(t.category) : '일반'}${t.due ? ' · 📅 ' + escapeHtml(t.due) : ''}
+          </div>
+        </div>
+      `).join('');
+
+    return `
+      <div class="rss-column" data-priority="${level}">
+        <div class="rss-column-header">
+          <span class="tag-name">
+            <i class="fa-solid fa-circle" style="color:${m.color};font-size:8px;"></i>
+            ${m.emoji} ${m.label}
+          </span>
+          <span class="feed-count">${tasks.length}개</span>
+        </div>
+        <div class="rss-column-body">
+          ${listHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ================================================================
 // SEARCH
 // ================================================================
 function doSearch() {
@@ -307,7 +396,7 @@ window.doLogin = async function() {
       showToast(`🌰 ${result.nickname}님, 환영해요!`);
       await renderAccount();
       await renderInbox();
-      await initRss();
+      await renderTasksPanel();
     } else {
       alert('그런 도토리를 찾을 수 없어요: ' + id);
     }
@@ -321,360 +410,6 @@ window.doLogout = async function() {
   if (!confirm('로그아웃하시겠어요?')) return;
   try { await DotoriStorage.logout(); } catch (e) {}
   location.reload();
-};
-
-// ================================================================
-// RSS FEEDS
-// ================================================================
-async function initRss() {
-  const grid = document.getElementById('rssGrid');
-  if (!grid) return;
-
-  let profile = null;
-  try { profile = await DotoriStorage.getMyAcorn(); } catch (e) {}
-
-  const countEl = document.getElementById('rssCount');
-
-  if (!profile) {
-    grid.innerHTML = '<p style="color:#999;padding:20px;text-align:center;grid-column:1/-1;">로그인하면 RSS 피드를 추가할 수 있어요</p>';
-    if (countEl) countEl.innerText = '';
-    return;
-  }
-
-  try {
-    rssFeeds = await DotoriStorage.getMyRssFeeds();
-  } catch (e) {
-    rssFeeds = [];
-  }
-
-  if (countEl) countEl.innerText = rssFeeds.length > 0 ? `${rssFeeds.length}개` : '';
-
-  if (rssFeeds.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column:1/-1;padding:24px;text-align:center;color:#999;font-size:11px;">
-        아직 등록된 피드가 없어요.<br>
-        <span style="font-size:10px;color:#BBB;">"관리" 버튼으로 RSS 주소를 등록해보세요.</span>
-      </div>
-    `;
-    return;
-  }
-
-  // Group by tag
-  const byTag = {};
-  rssFeeds.forEach(feed => {
-    const tags = (feed.tags && feed.tags.length > 0) ? feed.tags : ['기타'];
-    tags.forEach(tag => {
-      if (!byTag[tag]) byTag[tag] = [];
-      byTag[tag].push(feed);
-    });
-  });
-
-  const tags = Object.keys(byTag).sort();
-
-  grid.innerHTML = tags.map(tag => `
-    <div class="rss-column" data-tag="${escapeHtml(tag)}">
-      <div class="rss-column-header">
-        <span class="tag-name"><i class="fa-solid fa-tag"></i> ${escapeHtml(tag)}</span>
-        <span class="feed-count">${byTag[tag].length}개</span>
-      </div>
-      <div class="rss-column-body" id="rss-body-${cssSafe(tag)}">
-        <div class="rss-loading">불러오는 중...</div>
-      </div>
-    </div>
-  `).join('');
-
-  // Fetch each feed
-  for (const feed of rssFeeds) {
-    fetchFeedItems(feed);
-  }
-}
-
-function cssSafe(str) {
-  return String(str).replace(/[^a-zA-Z0-9가-힣]/g, '_');
-}
-
-async function fetchFeedItems(feed) {
-  const tags = (feed.tags && feed.tags.length > 0) ? feed.tags : ['기타'];
-
-  // Try multiple CORS proxies in order
-  const proxies = [
-  `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}`,
-  `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(feed.url)}`,
-  `https://cors.eu.org/${feed.url}`,
-  `https://corsproxy.io/?url=${encodeURIComponent(feed.url)}`
-  ];
-
-  let xml = null;
-  let lastError = null;
-
-  for (const proxyUrl of proxies) {
-    try {
-      const res = await fetch(proxyUrl);
-      if (!res.ok) continue;
-      const text = await res.text();
-      if (text && text.includes('<')) {
-        xml = text;
-        break;
-      }
-    } catch (e) {
-      lastError = e;
-      continue;
-    }
-  }
-
-  if (!xml) {
-    console.error('All proxies failed for:', feed.url, lastError);
-    tags.forEach(tag => {
-      const bodyEl = document.getElementById('rss-body-' + cssSafe(tag));
-      if (!bodyEl) return;
-      const loading = bodyEl.querySelector('.rss-loading');
-      if (loading) loading.remove();
-      if (!bodyEl.querySelector(`[data-feed-id="${feed.id}"]`)) {
-        const err = document.createElement('div');
-        err.className = 'rss-error';
-        err.dataset.feedId = feed.id;
-        err.innerHTML = `
-          <strong>${escapeHtml(feed.name)}</strong><br>
-          불러올 수 없어요
-          <div style="margin-top:4px;display:flex;gap:4px;">
-            <button class="rss-mini-btn" style="font-size:9px;padding:2px 6px;" onclick="openEditFeed('${feed.id}')">수정</button>
-            <button class="rss-mini-btn" style="font-size:9px;padding:2px 6px;color:#C04040;" onclick="removeRssFeed('${feed.id}')">삭제</button>
-          </div>
-        `;
-        bodyEl.appendChild(err);
-      }
-    });
-    return;
-  }
-
-  const items = parseRssItems(xml, feed.name);
-
-  tags.forEach(tag => {
-    const bodyEl = document.getElementById('rss-body-' + cssSafe(tag));
-    if (!bodyEl) return;
-    const loading = bodyEl.querySelector('.rss-loading');
-    if (loading) loading.remove();
-    const oldGroup = bodyEl.querySelector(`[data-feed-id="${feed.id}"]`);
-    if (oldGroup) oldGroup.remove();
-
-    const group = document.createElement('div');
-    group.className = 'rss-feed-group';
-    group.dataset.feedId = feed.id;
-    group.innerHTML = `
-      <div class="rss-feed-name">
-        <span>${escapeHtml(feed.name)}</span>
-        <button class="feed-remove" onclick="removeRssFeed('${feed.id}')" title="삭제">✕</button>
-      </div>
-      ${items.length === 0
-        ? '<div class="rss-error" style="padding:2px 0;">아이템이 없어요</div>'
-        : items.slice(0, 8).map(item => `
-          <a href="${escapeHtml(item.link)}" target="_blank" class="rss-item">
-            ${escapeHtml(item.title)}
-            <span class="item-date">${item.date}</span>
-          </a>
-        `).join('')}
-    `;
-    bodyEl.appendChild(group);
-  });
-}
-
-function parseRssItems(xml) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xml, 'text/xml');
-  const items = [];
-  const entries = doc.querySelectorAll('item, entry');
-
-  entries.forEach(entry => {
-    const title = entry.querySelector('title')?.textContent || '(제목 없음)';
-    let link = '';
-    const linkEl = entry.querySelector('link');
-    if (linkEl) link = linkEl.getAttribute('href') || linkEl.textContent || '';
-    const pubDate = entry.querySelector('pubDate, published, updated')?.textContent || '';
-    let date = '';
-    if (pubDate) {
-      try {
-        const d = new Date(pubDate);
-        date = `${d.getMonth() + 1}/${d.getDate()}`;
-      } catch (e) {}
-    }
-    if (link) items.push({ title: title.trim(), link, date });
-  });
-
-  return items;
-}
-
-window.refreshAllFeeds = async function() {
-  if (rssFeeds.length === 0) { showToast('등록된 피드가 없어요'); return; }
-  document.querySelectorAll('.rss-column-body').forEach(b => {
-    b.innerHTML = '<div class="rss-loading">불러오는 중...</div>';
-  });
-  for (const feed of rssFeeds) await fetchFeedItems(feed);
-  showToast('✅ 모든 피드를 새로고침했어요');
-};
-
-// ================================================================
-// RSS MANAGER (list + edit + add + delete)
-// ================================================================
-window.openFeedManager = async function() {
-  const me = await DotoriStorage.getMyAcorn();
-  if (!me) { showToast('로그인이 필요해요'); return; }
-
-  let feeds = [];
-  try { feeds = await DotoriStorage.getMyRssFeeds(); } catch (e) {}
-
-  const feedsHtml = feeds.length === 0
-    ? `<p style="text-align:center;color:#999;font-size:11px;padding:20px 0;">아직 등록된 피드가 없어요.<br>아래에서 새 피드를 추가해보세요.</p>`
-    : feeds.map(f => `
-      <div style="border:1px solid #E0E0E0;border-radius:4px;padding:10px;margin-bottom:8px;background:#FAFAFA;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:12px;font-weight:bold;color:var(--acorn-dark);margin-bottom:3px;">
-              ${escapeHtml(f.name)}
-            </div>
-            <div style="font-size:10px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:5px;">
-              ${escapeHtml(f.url)}
-            </div>
-            <div style="display:flex;flex-wrap:wrap;gap:3px;">
-              ${(f.tags || []).map(t => `<span style="background:var(--cream);border:1px solid var(--cream-dark);border-radius:8px;padding:1px 7px;font-size:9px;color:var(--acorn-dark);">#${escapeHtml(t)}</span>`).join('')}
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px;">
-            <button class="rss-mini-btn" onclick="openEditFeed('${f.id}')" style="font-size:10px;">
-              <i class="fa-solid fa-pen"></i> 수정
-            </button>
-            <button class="rss-mini-btn" onclick="removeRssFeed('${f.id}');setTimeout(openFeedManager,300);" style="font-size:10px;color:#C04040;">
-              <i class="fa-solid fa-trash"></i> 삭제
-            </button>
-          </div>
-        </div>
-      </div>
-    `).join('');
-
-  openHomeModal('📡 RSS 피드 관리', `
-    <div>
-      <div style="font-size:11px;color:#888;margin-bottom:10px;line-height:1.6;">
-        총 <strong>${feeds.length}개</strong>의 피드가 등록되어 있어요. 수정하거나 삭제하거나 새 피드를 추가할 수 있어요.
-      </div>
-
-      <div style="max-height:320px;overflow-y:auto;margin-bottom:14px;">
-        ${feedsHtml}
-      </div>
-
-      <div style="border-top:1px dashed #DDD;padding-top:12px;">
-        <div style="font-size:11px;font-weight:bold;color:var(--acorn-dark);margin-bottom:8px;">
-          <i class="fa-solid fa-plus" style="color:var(--pink-dark);"></i> 새 피드 추가
-        </div>
-        <input type="text" id="mgrName" placeholder="피드 이름" maxlength="30"
-          style="width:100%;padding:7px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:12px;font-family:inherit;outline:none;margin-bottom:6px;">
-        <input type="text" id="mgrUrl" placeholder="https://example.com/feed.xml" maxlength="300"
-          style="width:100%;padding:7px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:12px;font-family:inherit;outline:none;margin-bottom:6px;">
-        <input type="text" id="mgrTags" placeholder="태그 (쉼표로 구분)" maxlength="100"
-          style="width:100%;padding:7px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:12px;font-family:inherit;outline:none;margin-bottom:8px;">
-        <button onclick="doAddFeedFromManager()"
-          style="width:100%;padding:9px;background:linear-gradient(to bottom, #FFB8D4, #FF9EC4);border:1px solid #E87BA8;border-radius:4px;color:#fff;font-size:12px;font-weight:bold;cursor:pointer;font-family:inherit;">
-          <i class="fa-solid fa-plus"></i> 피드 추가
-        </button>
-      </div>
-    </div>
-  `);
-};
-
-window.doAddFeedFromManager = async function() {
-  const name = document.getElementById('mgrName').value.trim();
-  const url = document.getElementById('mgrUrl').value.trim();
-  const tagsRaw = document.getElementById('mgrTags').value.trim();
-
-  if (!name) { alert('피드 이름을 입력해주세요.'); return; }
-  if (!url) { alert('RSS 주소를 입력해주세요.'); return; }
-
-  const tags = tagsRaw
-    ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean)
-    : ['기타'];
-
-  try {
-    await DotoriStorage.addRssFeed(name, url, tags);
-    showToast(`📡 "${name}" 피드를 추가했어요`);
-    await initRss();
-    await openFeedManager();
-  } catch (e) {
-    console.error(e);
-    alert('피드를 추가할 수 없어요: ' + (e.message || ''));
-  }
-};
-
-window.openEditFeed = async function(id) {
-  const me = await DotoriStorage.getMyAcorn();
-  if (!me) return;
-
-  // Reload to make sure we have fresh data
-  try { rssFeeds = await DotoriStorage.getMyRssFeeds(); } catch (e) {}
-  const feed = rssFeeds.find(f => f.id === id);
-  if (!feed) { showToast('피드를 찾을 수 없어요'); return; }
-
-  openHomeModal('✏️ 피드 수정', `
-    <div style="padding:6px 0;">
-      <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:11px;font-weight:bold;color:var(--acorn-dark);margin-bottom:5px;">피드 이름</label>
-        <input type="text" id="editName" maxlength="30" value="${escapeHtml(feed.name)}"
-          style="width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:12px;font-family:inherit;outline:none;">
-      </div>
-      <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:11px;font-weight:bold;color:var(--acorn-dark);margin-bottom:5px;">RSS 주소</label>
-        <input type="text" id="editUrl" maxlength="300" value="${escapeHtml(feed.url)}"
-          style="width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:12px;font-family:inherit;outline:none;">
-      </div>
-      <div style="margin-bottom:14px;">
-        <label style="display:block;font-size:11px;font-weight:bold;color:var(--acorn-dark);margin-bottom:5px;">
-          태그 <span style="font-weight:normal;color:#999;">(쉼표로 구분)</span>
-        </label>
-        <input type="text" id="editTags" maxlength="100" value="${escapeHtml((feed.tags || []).join(', '))}"
-          style="width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:3px;background:#FFF8F0;font-size:12px;font-family:inherit;outline:none;">
-      </div>
-      <div style="display:flex;gap:6px;">
-        <button onclick="openFeedManager()" style="flex:1;padding:9px;background:#F0F0F0;border:1px solid #ccc;border-radius:4px;color:#333;font-size:12px;font-weight:bold;cursor:pointer;font-family:inherit;">
-          취소
-        </button>
-        <button onclick="doUpdateFeed('${feed.id}')" style="flex:2;padding:9px;background:linear-gradient(to bottom, #FFB8D4, #FF9EC4);border:1px solid #E87BA8;border-radius:4px;color:#fff;font-size:12px;font-weight:bold;cursor:pointer;font-family:inherit;">
-          <i class="fa-solid fa-save"></i> 저장
-        </button>
-      </div>
-    </div>
-  `);
-};
-
-window.doUpdateFeed = async function(id) {
-  const name = document.getElementById('editName').value.trim();
-  const url = document.getElementById('editUrl').value.trim();
-  const tagsRaw = document.getElementById('editTags').value.trim();
-
-  if (!name) { alert('피드 이름을 입력해주세요.'); return; }
-  if (!url) { alert('RSS 주소를 입력해주세요.'); return; }
-
-  const tags = tagsRaw
-    ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean)
-    : ['기타'];
-
-  try {
-    await DotoriStorage.updateRssFeed(id, name, url, tags);
-    showToast('✅ 피드를 수정했어요');
-    await initRss();
-    await openFeedManager();
-  } catch (e) {
-    console.error(e);
-    alert('수정할 수 없어요: ' + (e.message || ''));
-  }
-};
-
-window.removeRssFeed = async function(id) {
-  if (!confirm('이 피드를 삭제할까요?')) return;
-  try {
-    await DotoriStorage.deleteRssFeed(id);
-    showToast('삭제했어요');
-    await initRss();
-  } catch (e) {
-    console.error(e);
-    alert('삭제할 수 없어요');
-  }
 };
 
 // ================================================================

@@ -275,6 +275,11 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   flex-direction: column;
 }
 
+.task-panel {
+  display: flex;
+  flex-direction: column;
+}
+
 .rss-mini-btn {
   background: none;
   border: 1px solid var(--border);
@@ -304,7 +309,8 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
   color: #fff;
 }
 
-#rssGrid {
+#rssGrid,
+#taskGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
@@ -315,14 +321,16 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 
 /* Mobile: 2 columns */
 @media (max-width: 900px) {
-  #rssGrid {
+  #rssGrid,
+  #taskGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* Small mobile: 1 column */
 @media (max-width: 560px) {
-  #rssGrid {
+  #rssGrid,
+  #taskGrid {
     grid-template-columns: 1fr;
   }
 }
