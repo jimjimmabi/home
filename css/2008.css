@@ -306,10 +306,25 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 
 #rssGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   padding: 6px;
   min-height: 120px;
+  align-content: start;
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 900px) {
+  #rssGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small mobile: 1 column */
+@media (max-width: 560px) {
+  #rssGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .rss-column {
