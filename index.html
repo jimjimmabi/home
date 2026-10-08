@@ -3,20 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도토리숲 - Jimjimmabi - 숲</title>
-    
-    <!-- Fonts to match Dotorisup -->
+    <title>도토리 광장 · Dotoriverse</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Gaegu:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
-        /* ============================================
-           DOTORISUP DESIGN SYSTEM (FROM 2008.CSS)
-           ============================================ */
         :root {
             --bg: #F5F5F5;
             --panel: #FFFFFF;
@@ -26,6 +20,8 @@
             --pink-dark: #E87BA8;
             --blue: #A8D8FF;
             --blue-dark: #6FB8E8;
+            --green: #7FB77E;
+            --purple: #B4A0E5;
             --text: #333333;
             --text-light: #888888;
             --link: #0066CC;
@@ -35,99 +31,417 @@
             --cream-dark: #F0E4D4;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Nanum Gothic', 'Dotum', sans-serif;
-            background: linear-gradient(to bottom, #EAF6FF 0%, #F5F5F5 200px);
+            background: linear-gradient(to bottom, #EAF6FF 0%, #F5F5F5 300px);
             min-height: 100vh;
             color: var(--text);
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 12px;
+            padding: 12px;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
         }
 
         /* ============================================
-           HEADER / PROFILE CARD
+           TOP BAR
+           ============================================ */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 6px 14px;
+            font-size: 11px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            color: var(--acorn-dark);
+            font-family: 'Gaegu', cursive;
+            font-size: 14px;
+        }
+
+        .topbar-left .acorn { font-size: 16px; }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 10px;
+        }
+
+        .counter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: var(--cream);
+            border: 1px solid var(--cream-dark);
+            border-radius: 999px;
+            font-size: 10px;
+            color: var(--acorn-dark);
+            font-weight: bold;
+        }
+
+        /* ============================================
+           HERO / SEARCH
+           ============================================ */
+        .hero {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 32px 24px 24px;
+            text-align: center;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: repeating-linear-gradient(135deg, var(--pink) 0 10px, var(--cream) 10px 20px, var(--blue) 20px 30px, var(--cream) 30px 40px);
+        }
+
+        .hero-logo {
+            font-family: 'Gaegu', cursive;
+            font-size: 38px;
+            color: var(--acorn-dark);
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+        }
+
+        .hero-logo .acorn { font-size: 32px; }
+
+        .hero-sub {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .search-bar {
+            display: flex;
+            max-width: 560px;
+            margin: 0 auto 16px;
+            background: #fff;
+            border: 2px solid var(--pink);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(232, 123, 168, 0.15);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 10px 14px;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 13px;
+            background: transparent;
+            color: var(--text);
+        }
+
+        .search-bar input::placeholder {
+            color: #BBBBBB;
+            font-style: italic;
+        }
+
+        .search-bar button {
+            background: linear-gradient(to bottom, #FFB8D4, var(--pink));
+            border: none;
+            color: #fff;
+            padding: 0 20px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s;
+        }
+
+        .search-bar button:hover {
+            background: linear-gradient(to bottom, var(--pink), var(--pink-dark));
+        }
+
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 11px;
+        }
+
+        .quick-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 3px 10px;
+            border-radius: 999px;
+            transition: all 0.15s;
+        }
+
+        .quick-links a:hover {
+            background: var(--cream);
+            color: var(--acorn-dark);
+            text-decoration: none;
+        }
+
+        /* ============================================
+           MIDDLE ROW: Bookmarks + Today's Forest
+           ============================================ */
+        .middle-row {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .middle-row { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(to bottom, var(--cream), var(--cream-dark));
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--acorn-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .panel-title i { color: var(--pink-dark); }
+
+        .panel-body { padding: 12px; }
+
+        /* Bookmarks list */
+        .bookmark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 12px;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+
+        .bookmark:hover {
+            background: var(--cream);
+            border-left-color: var(--pink);
+            text-decoration: none;
+        }
+
+        .bookmark .bm-icon {
+            font-size: 14px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .bookmark .bm-name { flex: 1; font-weight: bold; }
+        .bookmark .bm-badge {
+            font-size: 9px;
+            padding: 1px 6px;
+            border-radius: 999px;
+            background: var(--pink);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Today's forest */
+        .update-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .update-list li {
+            position: relative;
+            padding: 6px 0 6px 16px;
+            font-size: 11px;
+            color: var(--text);
+            border-bottom: 1px dashed #EEEEEE;
+        }
+
+        .update-list li:last-child { border-bottom: none; }
+
+        .update-list li::before {
+            content: '·';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            color: var(--pink-dark);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .update-list li .date {
+            font-size: 9px;
+            color: #BBBBBB;
+            margin-left: 6px;
+        }
+
+        /* ============================================
+           TOOL GRID
+           ============================================ */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        @media (max-width: 640px) {
+            .tool-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .tool-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 16px 8px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.15s;
+            text-align: center;
+        }
+
+        .tool-tile:hover {
+            background: var(--cream);
+            border-color: var(--pink);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(232, 123, 168, 0.15);
+            text-decoration: none;
+        }
+
+        .tool-tile .tile-icon {
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .tool-tile .tile-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--acorn-dark);
+            font-family: 'Gaegu', cursive;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-tile .tile-sub {
+            font-size: 9px;
+            color: var(--text-light);
+        }
+
+        .tool-tile.featured {
+            border-color: var(--pink);
+            border-width: 2px;
+            background: linear-gradient(to bottom, #FFF8F0, #FFFFFF);
+        }
+
+        /* ============================================
+           PROFILE / SOCIALS
            ============================================ */
         .profile-header {
             background: var(--panel);
             border: 1px solid var(--border);
             border-radius: 4px;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
             margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
         }
 
-        /* Decorative top stripe like CyWorld */
         .profile-header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 6px;
             background: repeating-linear-gradient(135deg, var(--pink) 0 10px, var(--cream) 10px 20px, var(--blue) 20px 30px, var(--cream) 30px 40px);
         }
 
         .avatar-box {
-            width: 80px;
-            height: 80px;
+            width: 64px;
+            height: 64px;
             background: linear-gradient(to bottom, #EAF6FF, #FFF8F0);
             border: 2px solid var(--pink);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 44px;
-            margin: 0 auto 12px;
+            font-size: 32px;
+            margin: 0 auto 10px;
             box-shadow: 0 2px 6px rgba(232, 123, 168, 0.2);
         }
 
-        .profile-header h1 {
+        .profile-header h2 {
             font-family: 'Gaegu', cursive;
-            font-size: 28px;
+            font-size: 22px;
             color: var(--acorn-dark);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: 1px;
         }
 
         .profile-header p {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-light);
             max-width: 500px;
-            margin: 0 auto 16px;
+            margin: 0 auto 12px;
             line-height: 1.7;
         }
 
-        /* Social Buttons - 2008 Style */
         .social-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 16px;
+            gap: 6px;
+            margin-top: 12px;
         }
 
         .social-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
+            gap: 5px;
+            padding: 6px 12px;
             background: linear-gradient(to bottom, #FFFFFF, #F0F0F0);
             border: 1px solid var(--border);
             border-radius: 4px;
@@ -136,7 +450,6 @@
             text-decoration: none;
             font-weight: bold;
             transition: all 0.15s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .social-btn:hover {
@@ -147,153 +460,40 @@
             text-decoration: none;
         }
 
-        .social-btn i {
-            font-size: 13px;
-        }
+        .social-btn i { font-size: 12px; }
 
         /* ============================================
-           MAIN PANELS (CyWorld Card Style)
+           TIMELINE
            ============================================ */
-        .panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-
-        .panel-header {
-            background: linear-gradient(to bottom, var(--cream), var(--cream-dark));
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .panel-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: var(--acorn-dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .panel-title i {
-            color: var(--pink-dark);
-        }
-
-        .panel-body {
-            padding: 16px;
-        }
-
-        /* ============================================
-           PROJECT CARDS (INSIDE PANEL)
-           ============================================ */
-        .project-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .project-card {
-            display: block;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--pink);
-            border-radius: 6px;
-            padding: 14px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.15s;
-        }
-
-        .project-card:hover {
-            border-color: var(--pink);
-            border-left-color: var(--pink-dark);
-            background: #FFF8F0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(232, 123, 168, 0.15);
-            text-decoration: none;
-        }
-
-        /* Vary the left border color per project for variety */
-        .project-card.p-blue { border-left-color: var(--blue-dark); }
-        .project-card.p-acorn { border-left-color: var(--acorn); }
-        .project-card.p-green { border-left-color: #7FB77E; }
-        .project-card.p-purple { border-left-color: #B4A0E5; }
-
-        .project-card h3 {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--acorn-dark);
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .project-card p {
-            font-size: 11px;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-
-        .project-card .cta {
-            font-size: 10px;
-            font-weight: bold;
-            color: var(--pink-dark);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .project-card .cta i {
-            font-size: 9px;
-            transition: transform 0.2s;
-        }
-
-        .project-card:hover .cta i {
-            transform: translateX(3px);
-        }
-
-        /* ============================================
-            TIMELINE (DEVELOPMENT PATH)
-            ============================================ */
         .timeline {
             position: relative;
-            padding-left: 30px;
+            padding-left: 26px;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 8px;
-            top: 8px;
-            bottom: 8px;
+            left: 6px;
+            top: 6px;
+            bottom: 6px;
             width: 2px;
             background: var(--cream-dark);
         }
 
         .timeline-item {
             position: relative;
-            padding-bottom: 20px;
+            padding-bottom: 16px;
         }
 
-        .timeline-item:last-child {
-            padding-bottom: 0;
-        }
+        .timeline-item:last-child { padding-bottom: 0; }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -30px;
-            top: 4px;
-            width: 18px;
-            height: 18px;
+            left: -26px;
+            top: 3px;
+            width: 14px;
+            height: 14px;
             background: var(--panel);
             border: 2px solid var(--pink);
             border-radius: 50%;
@@ -306,24 +506,20 @@
             border-color: var(--pink-dark);
         }
 
-        /* Removed .in-progress dot styling since it's no longer used */
-
         .timeline-date {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
             color: var(--pink-dark);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
-        /* Removed .in-progress date color override */
-
         .timeline-item h3 {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: bold;
             color: var(--acorn-dark);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-family: 'Gaegu', cursive;
         }
 
@@ -334,8 +530,8 @@
 
         .timeline-item li {
             position: relative;
-            padding-left: 18px;
-            margin-bottom: 4px;
+            padding-left: 16px;
+            margin-bottom: 3px;
             font-size: 11px;
             color: var(--text);
             line-height: 1.5;
@@ -348,55 +544,216 @@
             position: absolute;
             left: 0;
             top: 1px;
-            font-size: 9px;
+            font-size: 8px;
             color: #4CAF50;
         }
 
-        /* Removed .in-progress li styling */
         /* ============================================
            FOOTER
            ============================================ */
         .footer {
             text-align: center;
-            padding: 20px;
+            padding: 16px;
             font-size: 10px;
             color: var(--text-light);
             line-height: 1.8;
             border-top: 1px solid var(--border);
-            margin-top: 20px;
+            margin-top: 16px;
         }
 
         .footer .dedication {
             font-style: italic;
             color: #AAAAAA;
-            margin-top: 8px;
-        }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 600px) {
-            .profile-header h1 {
-                font-size: 22px;
-            }
+            margin-top: 6px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
+
         <!-- ============================================
-             HEADER / PROFILE CARD
+             TOP BAR
+             ============================================ -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <span class="acorn">🌰</span>
+                <span>Dotoriverse</span>
+            </div>
+            <div class="topbar-right">
+                <span class="counter-pill">
+                    <i class="fa-solid fa-user"></i> Today <span id="todayCount">1</span>
+                </span>
+                <span class="counter-pill">
+                    <i class="fa-solid fa-users"></i> Total <span id="totalCount">1</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- ============================================
+             HERO / SEARCH
+             ============================================ -->
+        <section class="hero">
+            <div class="hero-logo">
+                <span class="acorn">🌰</span> 도토리 광장
+            </div>
+            <div class="hero-sub">하나의 숲, 모든 도구들 · One Forest, All Tools</div>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="앱, 프로젝트, 링크 검색...">
+                <button onclick="handleSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <div class="quick-links">
+                <a href="https://jimjimmabi.github.io/Dotorisuop/">🌳 Dotorisup</a>
+                <a href="https://jimjimmabi.github.io/MyDesk/">🖥️ MyDesk</a>
+                <a href="https://github.com/jimjimmabi">💻 GitHub</a>
+                <a href="https://gitee.com/jimjimmabi/projects">📦 Gitee</a>
+                <a href="https://www.youtube.com/@jimjimmabi">📺 YouTube</a>
+                <a href="https://www.tiktok.com/@jimjimmabi">🎵 TikTok</a>
+            </div>
+        </section>
+
+        <!-- ============================================
+             MIDDLE ROW
+             ============================================ -->
+        <div class="middle-row">
+
+            <!-- Bookmarks -->
+            <section class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-star"></i>
+                        <span>즐겨찾기</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <a href="https://jimjimmabi.github.io/Dotorisuop/" class="bookmark">
+                        <span class="bm-icon">🌳</span>
+                        <span class="bm-name">Dotorisup</span>
+                        <span class="bm-badge">LIVE</span>
+                    </a>
+                    <a href="https://jimjimmabi.github.io/MyDesk/" class="bookmark">
+                        <span class="bm-icon">🖥️</span>
+                        <span class="bm-name">MyDesk</span>
+                        <span class="bm-badge">LIVE</span>
+                    </a>
+                    <a href="https://github.com/jimjimmabi" class="bookmark">
+                        <span class="bm-icon">💻</span>
+                        <span class="bm-name">GitHub</span>
+                    </a>
+                    <a href="https://gitee.com/jimjimmabi/projects" class="bookmark">
+                        <span class="bm-icon">📦</span>
+                        <span class="bm-name">Gitee</span>
+                    </a>
+                    <a href="https://www.youtube.com/@jimjimmabi" class="bookmark">
+                        <span class="bm-icon">📺</span>
+                        <span class="bm-name">YouTube</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@jimjimmabi" class="bookmark">
+                        <span class="bm-icon">🎵</span>
+                        <span class="bm-name">TikTok</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Today's Forest -->
+            <section class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-tree"></i>
+                        <span>오늘의 숲</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="update-list">
+                        <li>MyDesk에 워드 스타일 툴바 추가됨 <span class="date">10/07</span></li>
+                        <li>MyDesk 클라우드 동기화 안정화 <span class="date">10/07</span></li>
+                        <li>Dotorisup 테마 커스터마이저 개발 중 <span class="date">10/06</span></li>
+                        <li>Dotorisup 일촌 시스템 개선 <span class="date">10/05</span></li>
+                        <li>새 캘린더 구독 기능 계획 중 <span class="date">10/04</span></li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ============================================
+             TOOL GRID
+             ============================================ -->
+        <section class="panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <i class="fa-solid fa-cube"></i>
+                    <span>도구들</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="tool-grid">
+
+                    <a href="https://jimjimmabi.github.io/Dotorisuop/" class="tool-tile featured">
+                        <span class="tile-icon">🌳</span>
+                        <span class="tile-name">Dotorisup</span>
+                        <span class="tile-sub">숲 · 커뮤니티</span>
+                    </a>
+
+                    <a href="https://jimjimmabi.github.io/MyDesk/" class="tool-tile featured">
+                        <span class="tile-icon">🖥️</span>
+                        <span class="tile-name">MyDesk</span>
+                        <span class="tile-sub">작업 · 노트</span>
+                    </a>
+
+                    <a href="https://github.com/jimjimmabi" class="tool-tile">
+                        <span class="tile-icon">💻</span>
+                        <span class="tile-name">GitHub</span>
+                        <span class="tile-sub">코드</span>
+                    </a>
+
+                    <a href="https://gitee.com/jimjimmabi/projects" class="tool-tile">
+                        <span class="tile-icon">📦</span>
+                        <span class="tile-name">Gitee</span>
+                        <span class="tile-sub">코드</span>
+                    </a>
+
+                    <a href="https://www.youtube.com/@jimjimmabi" class="tool-tile">
+                        <span class="tile-icon">📺</span>
+                        <span class="tile-name">YouTube</span>
+                        <span class="tile-sub">영상</span>
+                    </a>
+
+                    <a href="https://www.tiktok.com/@jimjimmabi" class="tool-tile">
+                        <span class="tile-icon">🎵</span>
+                        <span class="tile-name">TikTok</span>
+                        <span class="tile-sub">숏폼</span>
+                    </a>
+
+                    <a href="#" class="tool-tile" style="opacity:0.55;cursor:not-allowed;">
+                        <span class="tile-icon">📖</span>
+                        <span class="tile-name">Diary</span>
+                        <span class="tile-sub">준비 중</span>
+                    </a>
+
+                    <a href="#" class="tool-tile" style="opacity:0.55;cursor:not-allowed;">
+                        <span class="tile-icon">💰</span>
+                        <span class="tile-name">Ledger</span>
+                        <span class="tile-sub">준비 중</span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             PROFILE / SOCIALS
              ============================================ -->
         <header class="profile-header">
             <div class="avatar-box">🌰</div>
-            <h1>Jimjimmabi</h1>
+            <h2>Jimjimmabi</h2>
             <p>
                 안녕하세요! 저는 도토리숲을 만드는 개발자입니다.<br>
-                <span style="font-size: 10px; color: #AAAAAA;">Hello! I'm the developer behind Dotorisup.</span>
+                <span style="font-size: 10px; color: #AAAAAA;">Hello! I'm the developer behind the Dotoriverse.</span>
             </p>
-            
+
             <div class="social-links">
                 <a href="https://github.com/jimjimmabi" target="_blank" class="social-btn">
                     <i class="fab fa-github"></i> GitHub
@@ -414,75 +771,18 @@
         </header>
 
         <!-- ============================================
-             PROJECTS PANEL
-             ============================================ -->
-        <section class="panel">
-            <div class="panel-header">
-                <div class="panel-title">
-                    <i class="fas fa-folder-open"></i>
-                    <span>My Websites</span>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="project-list">
-                    
-                    <!-- Dotorisup -->
-                    <a href="https://jimjimmabi.github.io/Dotorisuop/" class="project-card">
-                        <h3>
-                            <span>🌳</span> Dotorisup (도토리숲)
-                        </h3>
-                        <p>
-                            A revival of CyWorld (2008) rebuilt as a quiet, non-profit community. Features a mini-room, live chat, friend system, and a unique "Time Capsule" mode.
-                        </p>
-                        <span class="cta">
-                            Visit Live Site <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </a>
-
-                    <!-- MyDesk -->
-                    <a href="https://jimjimmabi.github.io/MyDesk/" class="project-card p-blue">
-                        <h3>
-                            <span>🖥️</span> MyDesk (도토리숲)
-                        </h3>
-                        <p>
-                            A personal workspace with a Notion-style document editor, tasks, calendar, and more. Built with the same 2008 aesthetic as Dotorisup.
-                        </p>
-                        <span class="cta">
-                            Visit Live Site <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </a>
-
-                    <!-- GitHub Profile -->
-                    <a href="https://github.com/jimjimmabi" class="project-card p-acorn">
-                        <h3>
-                            <span>💻</span> My GitHub (내 GitHub)
-                        </h3>
-                        <p>
-                            Check out my full GitHub profile for other repositories, including experimental tools, game prototypes, and web projects.
-                        </p>
-                        <span class="cta">
-                            View on GitHub <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </a>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================
-             DOTORISUP DEVELOPMENT PATH
+             TIMELINE
              ============================================ -->
         <section class="panel">
             <div class="panel-header">
                 <div class="panel-title">
                     <i class="fas fa-seedling"></i>
-                    <span>Dotorisup Development Path</span>
+                    <span>Dotoriverse Development Path</span>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="timeline">
-                    
-                    <!-- Weekend 1 -->
+
                     <div class="timeline-item completed">
                         <div class="timeline-date">Weekend 1</div>
                         <h3>The Shell</h3>
@@ -494,7 +794,6 @@
                         </ul>
                     </div>
 
-                    <!-- Weekend 2-3 -->
                     <div class="timeline-item completed">
                         <div class="timeline-date">Weekends 2 & 3</div>
                         <h3>The Room & Content</h3>
@@ -507,7 +806,6 @@
                         </ul>
                     </div>
 
-                    <!-- Weekend 4-6 -->
                     <div class="timeline-item completed">
                         <div class="timeline-date">Weekends 4-6</div>
                         <h3>Community & Polish</h3>
@@ -519,7 +817,6 @@
                         </ul>
                     </div>
 
-                    <!-- Weekend 7 -->
                     <div class="timeline-item completed">
                         <div class="timeline-date">Weekend 7</div>
                         <h3>Going Online</h3>
@@ -530,7 +827,6 @@
                         </ul>
                     </div>
 
-                    <!-- Weekend 8 -->
                     <div class="timeline-item completed">
                         <div class="timeline-date">Weekend 8</div>
                         <h3>Taste Finder & Friends</h3>
@@ -541,7 +837,6 @@
                         </ul>
                     </div>
 
-                    <!-- Weekend 9 -->
                     <div class="timeline-item completed">
                         <div class="timeline-date">Weekend 9</div>
                         <h3>The Soul of the Forest</h3>
@@ -552,14 +847,34 @@
                         </ul>
                     </div>
 
-                    <!-- Current Work -->
-                    <div class="timeline-item in-progress">
-                        <div class="timeline-date">In Progress</div>
-                        <h3>Theme Customizer & Mood Diary</h3>
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekend 10</div>
+                        <h3>MyDesk — The Personal Workspace</h3>
                         <ul>
-                            <li class="in-progress">Building the page color palette customizer</li>
-                            <li class="in-progress">Adding custom background image support</li>
-                            <li class="in-progress">Creating the daily mood diary sidebar</li>
+                            <li>Built a document editor with a word-processor toolbar</li>
+                            <li>Added tasks, calendar, and Pomodoro focus timer</li>
+                            <li>Connected MyDesk to the same Dotorisup account</li>
+                            <li>Enabled real-time cloud sync to Supabase</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item completed">
+                        <div class="timeline-date">Weekend 11</div>
+                        <h3>The Dotoriverse Homepage</h3>
+                        <ul>
+                            <li>Created a portal-style homepage for all tools</li>
+                            <li>Inspired by 2008 Asian search-engine portals (Naver, Daum)</li>
+                            <li>One hub for every project, social, and update</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">In Progress</div>
+                        <h3>More Tools Coming</h3>
+                        <ul>
+                            <li>도토리 다이어리 (Acorn Diary) — daily journal</li>
+                            <li>도토리 가계부 (Acorn Ledger) — budget tracker</li>
+                            <li>Calendar URL subscriptions in MyDesk</li>
                         </ul>
                     </div>
 
@@ -578,6 +893,57 @@
         </footer>
 
     </div>
+
+    <script>
+        // Visit counter (localStorage-based)
+        (function() {
+            const today = new Date().toISOString().slice(0, 10);
+            const raw = localStorage.getItem('dotoriverse_visits');
+            const visits = raw ? JSON.parse(raw) : { today: '', todayCount: 0, total: 0 };
+
+            if (visits.today !== today) {
+                visits.today = today;
+                visits.todayCount = 0;
+            }
+            visits.todayCount += 1;
+            visits.total += 1;
+
+            localStorage.setItem('dotoriverse_visits', JSON.stringify(visits));
+
+            const todayEl = document.getElementById('todayCount');
+            const totalEl = document.getElementById('totalCount');
+            if (todayEl) todayEl.innerText = visits.todayCount;
+            if (totalEl) totalEl.innerText = visits.total;
+        })();
+
+        // Simple search — filters the page for matching links
+        function handleSearch() {
+            const q = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!q) return;
+
+            // Find all links and tool tiles whose text matches
+            const targets = document.querySelectorAll('.tool-tile, .bookmark, .social-btn');
+            let found = null;
+            targets.forEach(el => {
+                if (!found && el.innerText.toLowerCase().includes(q)) {
+                    found = el;
+                }
+            });
+
+            if (found) {
+                found.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                found.style.outline = '2px solid var(--pink)';
+                setTimeout(() => { found.style.outline = ''; }, 1500);
+            } else {
+                alert('"' + q + '"에 해당하는 링크를 찾을 수 없어요.');
+            }
+        }
+
+        // Enter key in search bar
+        document.getElementById('searchInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleSearch();
+        });
+    </script>
 
 </body>
 </html>
