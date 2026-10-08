@@ -417,6 +417,22 @@ window.doLogout = async function() {
 };
 
 // ================================================================
+// TASK TOGGLE
+// ================================================================
+window.toggleTaskFromHome = async function(taskId, event) {
+  if (event) event.stopPropagation();
+  console.log('Toggling task:', taskId);
+  try {
+    await DotoriStorage.toggleMyDeskTask(taskId);
+    showToast('✅ 완료했어요');
+    await renderTasksPanel();
+  } catch (e) {
+    console.error('Toggle failed:', e);
+    alert('완료할 수 없어요: ' + (e.message || ''));
+  }
+};
+
+// ================================================================
 // HELPERS
 // ================================================================
 function escapeHtml(str) {

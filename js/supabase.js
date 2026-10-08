@@ -128,7 +128,7 @@ async function toggleMyDeskTask(taskId) {
   const workspace = data.data;
   const tasks = workspace.tasks || [];
   const task = tasks.find(t => t.id === taskId);
-  if (!task) throw new Error('할 일을 찾을 수 없어요');
+  if (!task) throw new Error('할 일을 찾을 수 없어요: ' + taskId);
 
   task.completed = !task.completed;
 
@@ -152,5 +152,5 @@ window.DotoriStorage = {
   logout,
   getInboxPreview,
   getMyDeskTasks,
-  toggleMyDeskTask   // ← ADD THIS
+  toggleMyDeskTask
 };
