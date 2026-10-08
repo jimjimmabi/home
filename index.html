@@ -104,6 +104,30 @@
         </div>
       </div>
 
+      <!-- RSS FEED SECTION -->
+    <div class="rss-section">
+      <div class="rss-header">
+        <div class="rss-title">
+          <i class="fa-solid fa-rss"></i>
+          <span>RSS 피드</span>
+          <span class="rss-count" id="rssCount"></span>
+        </div>
+        <div class="rss-actions">
+          <button class="rss-btn" onclick="refreshAllFeeds()" title="모두 새로고침">
+            <i class="fa-solid fa-rotate"></i> 새로고침
+          </button>
+          <button class="rss-btn primary" onclick="openAddFeedModal()" title="피드 추가">
+            <i class="fa-solid fa-plus"></i> 피드 추가
+          </button>
+        </div>
+      </div>
+      <div class="rss-grid" id="rssGrid">
+        <p style="color:#999;padding:20px;text-align:center;grid-column:1/-1;">로그인하면 RSS 피드를 추가할 수 있어요</p>
+      </div>
+    </div>
+
+    <div class="bottom-strip">
+
       <div class="col-center">
         <div class="dp">
           <div class="dp-header">

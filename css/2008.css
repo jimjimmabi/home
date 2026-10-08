@@ -266,3 +266,199 @@ a:hover { text-decoration: underline; color: var(--pink-dark); }
 .toast.show { opacity: 1; transform: translateY(0); }
 .tool-bar::-webkit-scrollbar { height: 4px; }
 .tool-bar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); }
+
+/* ============================================
+   RSS FEED SECTION
+   ============================================ */
+.rss-section {
+  padding: 8px;
+}
+
+.rss-header {
+  background: linear-gradient(to bottom, var(--cream), var(--cream-dark));
+  border: 1px solid var(--cream-dark);
+  border-radius: 3px 3px 0 0;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rss-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--acorn-dark);
+}
+
+.rss-title i { color: #FF6600; }
+
+.rss-count {
+  background: var(--pink);
+  color: #fff;
+  font-size: 9px;
+  padding: 1px 7px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.rss-actions { display: flex; gap: 6px; }
+
+.rss-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  background: linear-gradient(to bottom, #FFFFFF, #F0F0F0);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.rss-btn:hover {
+  background: linear-gradient(to bottom, #FFF8F0, #FFEEDD);
+  border-color: var(--pink);
+  color: var(--pink-dark);
+}
+
+.rss-btn.primary {
+  background: linear-gradient(to bottom, #FFB8D4, var(--pink));
+  border-color: var(--pink-dark);
+  color: #fff;
+}
+
+.rss-btn.primary:hover {
+  background: linear-gradient(to bottom, var(--pink), var(--pink-dark));
+}
+
+/* Dynamic grid — as many columns as fit, min 240px each */
+.rss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  padding: 8px;
+  background: #F5F5F5;
+  border: 1px solid #E0E0E0;
+  border-top: none;
+  border-radius: 0 0 3px 3px;
+  min-height: 200px;
+}
+
+.rss-column {
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  max-height: 340px;
+  overflow: hidden;
+}
+
+.rss-column-header {
+  background: linear-gradient(to bottom, #FFF8F0, #F0E4D4);
+  border-bottom: 1px solid #E0D0C0;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--acorn-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rss-column-header .tag-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rss-column-header .tag-name i { color: var(--pink-dark); }
+.rss-column-header .feed-count { font-size: 9px; color: #999; font-weight: normal; }
+
+.rss-column-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 2px 0;
+}
+
+.rss-feed-group {
+  border-bottom: 1px dotted #EEEEEE;
+  padding: 6px 10px;
+}
+
+.rss-feed-group:last-child { border-bottom: none; }
+
+.rss-feed-name {
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--pink-dark);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rss-feed-name .feed-remove {
+  background: none;
+  border: none;
+  color: #CCC;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0 2px;
+}
+
+.rss-feed-name .feed-remove:hover { color: #C04040; }
+
+.rss-item {
+  display: block;
+  font-size: 10px;
+  color: #555;
+  padding: 3px 0 3px 8px;
+  border-bottom: 1px dotted #F0F0F0;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: all 0.12s;
+}
+
+.rss-item:last-child { border-bottom: none; }
+
+.rss-item:hover {
+  background: var(--cream);
+  color: var(--pink-dark);
+  padding-left: 10px;
+  text-decoration: none;
+}
+
+.rss-item .item-date {
+  font-size: 8px;
+  color: #BBB;
+  display: block;
+  margin-top: 2px;
+}
+
+.rss-loading {
+  color: #BBB;
+  font-size: 10px;
+  font-style: italic;
+  padding: 6px 10px;
+}
+
+.rss-error {
+  color: #C04040;
+  font-size: 10px;
+  padding: 6px 10px;
+}
+
+@media (max-width: 640px) {
+  .rss-grid { grid-template-columns: 1fr; }
+  .rss-header { flex-direction: column; align-items: flex-start; }
+}

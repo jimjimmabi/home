@@ -15,26 +15,22 @@ const sb = window.supabase.createClient(
 async function getMyAcorn() {
   const myId = localStorage.getItem('dotori_my_id');
   if (!myId) return null;
-
   const { data, error } = await sb
     .from('profiles')
     .select('*')
     .eq('dotori_id', myId)
     .single();
-
   if (error) return null;
   return data;
 }
 
 async function loginByDotoriId(dotoriId) {
   const cleaned = String(dotoriId).trim().toLowerCase();
-
   const { data: profile, error } = await sb
     .from('profiles')
     .select('*')
     .eq('dotori_id', cleaned)
     .single();
-
   if (error || !profile) return null;
 
   const { data: { session } } = await sb.auth.getSession();
@@ -50,7 +46,6 @@ async function loginByDotoriId(dotoriId) {
     user_id: profile.id,
     is_owner: true
   }));
-
   return profile;
 }
 
@@ -60,13 +55,12 @@ async function logout() {
   localStorage.removeItem('dotori_my_id');
 }
 
-// ---------- Inbox (쪽지) ----------
+// ---------- Inbox ----------
 
 async function getInboxPreview() {
   const me = await getMyAcorn();
   if (!me) return { unread: 0, latest: [] };
 
-  // Fetch the latest 5 notes for this user
   const { data, error } = await sb
     .from('notes')
     .select('*')
@@ -76,14 +70,12 @@ async function getInboxPreview() {
 
   if (error) return { unread: 0, latest: [] };
 
-  // Count unread notes
   const { count } = await sb
     .from('notes')
     .select('*', { count: 'exact', head: true })
     .eq('recipient_id', me.id)
     .eq('is_read', false);
 
-  // Get sender profiles for the fetched notes
   const senderIds = [...new Set((data || []).map((n) => n.sender_id))];
   let senders = {};
   if (senderIds.length > 0) {
@@ -103,11 +95,45 @@ async function getInboxPreview() {
   };
 }
 
+// ---------- RSS Feeds ----------
+
+async function getMyRssFeeds() {
+  const me = await getMyAcorn();
+  if (!me) return [];
+  const { data, error } = await sb
+    .from('rss_feeds')
+    .select('*')
+    .eq('owner_id', me.id)
+    .order('created_at', { ascending: false });
+  if (error) return [];
+  return data;
+}
+
+async function addRssFeed(name, url, tags) {
+  const me = await getMyAcorn();
+  if (!me) throw new Error('로그인이 필요해요');
+  const { data, error } = await sb
+    .from('rss_feeds')
+    .insert([{ owner_id: me.id, name, url, tags: tags || [] }])
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+async function deleteRssFeed(id) {
+  const { error } = await sb.from('rss_feeds').delete().eq('id', id);
+  return !error;
+}
+
 // ---------- Expose ----------
 
 window.DotoriStorage = {
   getMyAcorn,
   loginByDotoriId,
   logout,
-  getInboxPreview
+  getInboxPreview,
+  getMyRssFeeds,
+  addRssFeed,
+  deleteRssFeed
 };
